@@ -703,60 +703,60 @@ admin / admin can</p>
 <div class="listingblock">
 <div class="title">manual logout endpoint</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">  <span class="annotation">@GetMapping</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/logout</span><span class="delimiter">&quot;</span></span>)
-  <span class="directive">public</span> <span class="predefined-type">String</span> logoutGet(<span class="directive">final</span> HttpServletRequest request, <span class="directive">final</span> HttpServletResponse response) {
-    <span class="keyword">return</span> logout(request, response);
-  }
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@GetMapping</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/logout</span><span class="delimiter">&quot;</span></span>)
+<span class="directive">public</span> <span class="predefined-type">String</span> logoutGet(<span class="directive">final</span> HttpServletRequest request, <span class="directive">final</span> HttpServletResponse response) {
+  <span class="keyword">return</span> logout(request, response);
+}
 
-  <span class="annotation">@PostMapping</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/logout</span><span class="delimiter">&quot;</span></span>)
-  <span class="directive">public</span> <span class="predefined-type">String</span> logoutPost(<span class="directive">final</span> HttpServletRequest request, <span class="directive">final</span> HttpServletResponse response) {
-    <span class="keyword">return</span> logout(request, response);
-  }
+<span class="annotation">@PostMapping</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/logout</span><span class="delimiter">&quot;</span></span>)
+<span class="directive">public</span> <span class="predefined-type">String</span> logoutPost(<span class="directive">final</span> HttpServletRequest request, <span class="directive">final</span> HttpServletResponse response) {
+  <span class="keyword">return</span> logout(request, response);
+}
 
-  <span class="directive">private</span> <span class="predefined-type">String</span> logout(<span class="directive">final</span> HttpServletRequest request, <span class="directive">final</span> HttpServletResponse response) {
+<span class="directive">private</span> <span class="predefined-type">String</span> logout(<span class="directive">final</span> HttpServletRequest request, <span class="directive">final</span> HttpServletResponse response) {
 
-    Optional.ofNullable(SecurityContextHolder.getContext())
-            .map(SecurityContext::getAuthentication)
-            .ifPresent(authentication -&gt; <span class="keyword">new</span> SecurityContextLogoutHandler().logout(request, response, authentication));
+  Optional.ofNullable(SecurityContextHolder.getContext())
+          .map(SecurityContext::getAuthentication)
+          .ifPresent(authentication -&gt; <span class="keyword">new</span> SecurityContextLogoutHandler().logout(request, response, authentication));
 
-    <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">redirect:/login</span><span class="delimiter">&quot;</span></span>;
-  }</code></pre>
+  <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">redirect:/login</span><span class="delimiter">&quot;</span></span>;
+}</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">set header from client cookie on javascript single page app</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="javascript">          <span class="keyword">function</span> <span class="function">getCookie</span>(cookiePrefix) {
-            <span class="keyword">var</span> name = cookiePrefix + <span class="string"><span class="delimiter">&quot;</span><span class="content">=</span><span class="delimiter">&quot;</span></span>;
-            <span class="keyword">var</span> decodedCookie = decodeURIComponent(document.cookie);
-            <span class="keyword">var</span> ca = decodedCookie.split(<span class="string"><span class="delimiter">'</span><span class="content">;</span><span class="delimiter">'</span></span>);
-            <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="integer">0</span>; i &lt;ca.length; i++) {
-              <span class="keyword">var</span> c = ca[i];
-              <span class="keyword">while</span> (c.charAt(<span class="integer">0</span>) == <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span>) {
-                c = c.substring(<span class="integer">1</span>);
-              }
-              <span class="keyword">if</span> (c.indexOf(name) == <span class="integer">0</span>) {
-                <span class="keyword">return</span> c.substring(name.length, c.length);
-              }
-            }
-            <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>;
-          }
+<pre class="CodeRay highlight"><code data-lang="javascript"><span class="keyword">function</span> <span class="function">getCookie</span>(cookiePrefix) {
+  <span class="keyword">var</span> name = cookiePrefix + <span class="string"><span class="delimiter">&quot;</span><span class="content">=</span><span class="delimiter">&quot;</span></span>;
+  <span class="keyword">var</span> decodedCookie = decodeURIComponent(document.cookie);
+  <span class="keyword">var</span> ca = decodedCookie.split(<span class="string"><span class="delimiter">'</span><span class="content">;</span><span class="delimiter">'</span></span>);
+  <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="integer">0</span>; i &lt;ca.length; i++) {
+    <span class="keyword">var</span> c = ca[i];
+    <span class="keyword">while</span> (c.charAt(<span class="integer">0</span>) == <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span>) {
+      c = c.substring(<span class="integer">1</span>);
+    }
+    <span class="keyword">if</span> (c.indexOf(name) == <span class="integer">0</span>) {
+      <span class="keyword">return</span> c.substring(name.length, c.length);
+    }
+  }
+  <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>;
+}
 
-          <span class="keyword">var</span> headers = {
-            <span class="key"><span class="delimiter">'</span><span class="content">X-XSRF-TOKEN</span><span class="delimiter">'</span></span>: getCookie(<span class="string"><span class="delimiter">'</span><span class="content">XSRF-TOKEN</span><span class="delimiter">'</span></span>),
-            <span class="key"><span class="delimiter">'</span><span class="content">content-type</span><span class="delimiter">'</span></span>: <span class="string"><span class="delimiter">'</span><span class="content">application/json</span><span class="delimiter">'</span></span>,
-          };
+<span class="keyword">var</span> headers = {
+  <span class="key"><span class="delimiter">'</span><span class="content">X-XSRF-TOKEN</span><span class="delimiter">'</span></span>: getCookie(<span class="string"><span class="delimiter">'</span><span class="content">XSRF-TOKEN</span><span class="delimiter">'</span></span>),
+  <span class="key"><span class="delimiter">'</span><span class="content">content-type</span><span class="delimiter">'</span></span>: <span class="string"><span class="delimiter">'</span><span class="content">application/json</span><span class="delimiter">'</span></span>,
+};
 
-          <span class="keyword">var</span> options = {
-            <span class="key">method</span>: <span class="string"><span class="delimiter">'</span><span class="content">post</span><span class="delimiter">'</span></span>,
-            <span class="key">headers</span>: headers,
-            <span class="key">credentials</span>: <span class="string"><span class="delimiter">'</span><span class="content">include</span><span class="delimiter">'</span></span>,
-            <span class="key">body</span>: { <span class="key">ololo</span>: <span class="string"><span class="delimiter">'</span><span class="content">trololo </span><span class="delimiter">'</span></span>}
-          };
+<span class="keyword">var</span> options = {
+  <span class="key">method</span>: <span class="string"><span class="delimiter">'</span><span class="content">post</span><span class="delimiter">'</span></span>,
+  <span class="key">headers</span>: headers,
+  <span class="key">credentials</span>: <span class="string"><span class="delimiter">'</span><span class="content">include</span><span class="delimiter">'</span></span>,
+  <span class="key">body</span>: { <span class="key">ololo</span>: <span class="string"><span class="delimiter">'</span><span class="content">trololo </span><span class="delimiter">'</span></span>}
+};
 
-          fetch(<span class="string"><span class="delimiter">&quot;</span><span class="content">/user</span><span class="delimiter">&quot;</span></span>, options)
-            .then(data =&gt; data.json())
-            .then(json =&gt; render(JSON.stringify(json)));</code></pre>
+fetch(<span class="string"><span class="delimiter">&quot;</span><span class="content">/user</span><span class="delimiter">&quot;</span></span>, options)
+  .then(data =&gt; data.json())
+  .then(json =&gt; render(JSON.stringify(json)));</code></pre>
 </div>
 </div>
 <div class="paragraph">
