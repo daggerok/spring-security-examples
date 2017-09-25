@@ -730,7 +730,7 @@ admin / admin can</p>
   <span class="keyword">var</span> name = cookiePrefix + <span class="string"><span class="delimiter">&quot;</span><span class="content">=</span><span class="delimiter">&quot;</span></span>;
   <span class="keyword">var</span> decodedCookie = decodeURIComponent(document.cookie);
   <span class="keyword">var</span> ca = decodedCookie.split(<span class="string"><span class="delimiter">'</span><span class="content">;</span><span class="delimiter">'</span></span>);
-  <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="integer">0</span>; i &lt;ca.length; i++) {
+  <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="integer">0</span>; i &lt; ca.length; i++) {
     <span class="keyword">var</span> c = ca[i];
     <span class="keyword">while</span> (c.charAt(<span class="integer">0</span>) == <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span>) {
       c = c.substring(<span class="integer">1</span>);
