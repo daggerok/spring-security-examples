@@ -626,7 +626,152 @@ It&#8217;s contains some spring-security playground projects</p>
 <div class="sect1">
 <h2 id="csrf-protection-with-single-page-apps-using-js">1. CSRF Protection with Single Page Apps using JS</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>user / password can&#8217;t do post
+admin / admin can</p>
+</div>
+<div class="listingblock">
+<div class="title">security configuration</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@EnableWebSecurity</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">WebSecurityConfig</span> <span class="directive">extends</span> WebSecurityConfigurerAdapter {
 
+  <span class="annotation">@Override</span>
+  <span class="annotation">@Autowired</span>
+  <span class="directive">protected</span> <span class="type">void</span> configure(<span class="directive">final</span> AuthenticationManagerBuilder auth) <span class="directive">throws</span> <span class="exception">Exception</span> {
+
+    auth
+        .inMemoryAuthentication()
+        .withUser(<span class="string"><span class="delimiter">&quot;</span><span class="content">user</span><span class="delimiter">&quot;</span></span>)
+          .password(<span class="string"><span class="delimiter">&quot;</span><span class="content">password</span><span class="delimiter">&quot;</span></span>)
+          .roles(<span class="string"><span class="delimiter">&quot;</span><span class="content">USER</span><span class="delimiter">&quot;</span></span>)
+          .and()
+        .withUser(<span class="string"><span class="delimiter">&quot;</span><span class="content">admin</span><span class="delimiter">&quot;</span></span>)
+          .password(<span class="string"><span class="delimiter">&quot;</span><span class="content">admin</span><span class="delimiter">&quot;</span></span>)
+          .roles(<span class="string"><span class="delimiter">&quot;</span><span class="content">ADMIN</span><span class="delimiter">&quot;</span></span>);
+  }
+
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> <span class="type">void</span> configure(<span class="directive">final</span> WebSecurity web) <span class="directive">throws</span> <span class="exception">Exception</span> {
+
+    web.ignoring()
+       .antMatchers(
+           <span class="string"><span class="delimiter">&quot;</span><span class="content">/favicon.ico</span><span class="delimiter">&quot;</span></span>,
+           <span class="string"><span class="delimiter">&quot;</span><span class="content">/webjars/**</span><span class="delimiter">&quot;</span></span>,
+           <span class="string"><span class="delimiter">&quot;</span><span class="content">/login.html</span><span class="delimiter">&quot;</span></span>,
+           <span class="string"><span class="delimiter">&quot;</span><span class="content">/index.html</span><span class="delimiter">&quot;</span></span>,
+           <span class="string"><span class="delimiter">&quot;</span><span class="content">/logout.html</span><span class="delimiter">&quot;</span></span>
+       );
+  }
+
+  <span class="annotation">@Override</span>
+  <span class="directive">protected</span> <span class="type">void</span> configure(<span class="directive">final</span> HttpSecurity http) <span class="directive">throws</span> <span class="exception">Exception</span> {
+
+    http
+        .authorizeRequests()
+          .antMatchers(POST)
+          .hasRole(<span class="string"><span class="delimiter">&quot;</span><span class="content">ADMIN</span><span class="delimiter">&quot;</span></span>)
+        .anyRequest()
+          .authenticated()
+          .and()
+        .formLogin()
+          .defaultSuccessUrl(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">true</span>)
+          .permitAll()
+          .and()
+        .logout()
+          .logoutUrl(<span class="string"><span class="delimiter">&quot;</span><span class="content">/logout</span><span class="delimiter">&quot;</span></span>)
+          .logoutSuccessUrl(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>)
+          .clearAuthentication(<span class="predefined-constant">true</span>)
+          .deleteCookies(<span class="string"><span class="delimiter">&quot;</span><span class="content">JSESSIONID</span><span class="delimiter">&quot;</span></span>)
+          .invalidateHttpSession(<span class="predefined-constant">false</span>)
+          .permitAll()
+          .and()
+        .headers()
+          .frameOptions()
+          .sameOrigin()
+          .and()
+        .csrf()
+          .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+          .and()
+        .sessionManagement()
+          .sessionCreationPolicy(SessionCreationPolicy.NEVER)
+    ;
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">manual logout endpoint</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">  <span class="annotation">@GetMapping</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/logout</span><span class="delimiter">&quot;</span></span>)
+  <span class="directive">public</span> <span class="predefined-type">String</span> logoutGet(<span class="directive">final</span> HttpServletRequest request, <span class="directive">final</span> HttpServletResponse response) {
+    <span class="keyword">return</span> logout(request, response);
+  }
+
+  <span class="annotation">@PostMapping</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/logout</span><span class="delimiter">&quot;</span></span>)
+  <span class="directive">public</span> <span class="predefined-type">String</span> logoutPost(<span class="directive">final</span> HttpServletRequest request, <span class="directive">final</span> HttpServletResponse response) {
+    <span class="keyword">return</span> logout(request, response);
+  }
+
+  <span class="directive">private</span> <span class="predefined-type">String</span> logout(<span class="directive">final</span> HttpServletRequest request, <span class="directive">final</span> HttpServletResponse response) {
+
+    Optional.ofNullable(SecurityContextHolder.getContext())
+            .map(SecurityContext::getAuthentication)
+            .ifPresent(authentication -&gt; <span class="keyword">new</span> SecurityContextLogoutHandler().logout(request, response, authentication));
+
+    <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">redirect:/login</span><span class="delimiter">&quot;</span></span>;
+  }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">set header from client cookie on javascript single page app</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">          <span class="keyword">function</span> <span class="function">getCookie</span>(cookiePrefix) {
+            <span class="keyword">var</span> name = cookiePrefix + <span class="string"><span class="delimiter">&quot;</span><span class="content">=</span><span class="delimiter">&quot;</span></span>;
+            <span class="keyword">var</span> decodedCookie = decodeURIComponent(document.cookie);
+            <span class="keyword">var</span> ca = decodedCookie.split(<span class="string"><span class="delimiter">'</span><span class="content">;</span><span class="delimiter">'</span></span>);
+            <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="integer">0</span>; i &lt;ca.length; i++) {
+              <span class="keyword">var</span> c = ca[i];
+              <span class="keyword">while</span> (c.charAt(<span class="integer">0</span>) == <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span>) {
+                c = c.substring(<span class="integer">1</span>);
+              }
+              <span class="keyword">if</span> (c.indexOf(name) == <span class="integer">0</span>) {
+                <span class="keyword">return</span> c.substring(name.length, c.length);
+              }
+            }
+            <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>;
+          }
+
+          <span class="keyword">var</span> headers = {
+            <span class="key"><span class="delimiter">'</span><span class="content">X-XSRF-TOKEN</span><span class="delimiter">'</span></span>: getCookie(<span class="string"><span class="delimiter">'</span><span class="content">XSRF-TOKEN</span><span class="delimiter">'</span></span>),
+            <span class="key"><span class="delimiter">'</span><span class="content">content-type</span><span class="delimiter">'</span></span>: <span class="string"><span class="delimiter">'</span><span class="content">application/json</span><span class="delimiter">'</span></span>,
+          };
+
+          <span class="keyword">var</span> options = {
+            <span class="key">method</span>: <span class="string"><span class="delimiter">'</span><span class="content">post</span><span class="delimiter">'</span></span>,
+            <span class="key">headers</span>: headers,
+            <span class="key">credentials</span>: <span class="string"><span class="delimiter">'</span><span class="content">include</span><span class="delimiter">'</span></span>,
+            <span class="key">body</span>: { <span class="key">ololo</span>: <span class="string"><span class="delimiter">'</span><span class="content">trololo </span><span class="delimiter">'</span></span>}
+          };
+
+          fetch(<span class="string"><span class="delimiter">&quot;</span><span class="content">/user</span><span class="delimiter">&quot;</span></span>, options)
+            .then(data =&gt; data.json())
+            .then(json =&gt; render(JSON.stringify(json)));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>links:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="https://www.youtube.com/watch?v=1pegQ4Bj_aM">youtube talk</a></p>
+</li>
+<li>
+<p><a href="https://github.com/naturalprogrammer/spring-lemon">some demo</a></p>
+</li>
+</ol>
+</div>
 </div>
 </div>
 <div class="sect1">
