@@ -1,0 +1,3 @@
+include "docker:app"
+//include "docker:rabbitmq"
+//include "docker:app-rabbitmq"

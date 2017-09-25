@@ -1,0 +1,3 @@
+This documentation contains some help to
+link:{github_url}[examples from spring-security-examples repository].
+It's contains some spring-security playground projects

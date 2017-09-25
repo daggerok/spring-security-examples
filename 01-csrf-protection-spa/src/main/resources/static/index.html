@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CSRF Protection</title>
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="webjars/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="webjars/bootswatch/materia/bootstrap.min.css">
+  <link rel="stylesheet" href="webjars/tether/dist/css/tether.min.css">
+</head>
+<body class="container">
+  <button id="btn" class="btn">post!</button>
+  <div id="output"></div>
+  <script>
+    (function main() {
+
+      document.addEventListener('DOMContentLoaded', function onDOMContentLoaded() {
+        var btn = document.querySelector('#btn');
+        var output = document.querySelector('#output');
+
+        function render(content) {
+          var fragment = document.createDocumentFragment();
+          var el = document.createElement('div');
+          el.textContent = content;
+          fragment.appendChild(el);
+          output.appendChild(fragment);
+        }
+
+        btn.addEventListener('click', function onClick() {
+          //tag::content[]
+          function getCookie(cookiePrefix) {
+            var name = cookiePrefix + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i < ca.length; i++) {
+              var c = ca[i];
+              while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+              }
+              if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+              }
+            }
+            return "";
+          }
+
+          var headers = {
+            'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
+            'content-type': 'application/json',
+          };
+
+          var options = {
+            method: 'post',
+            headers: headers,
+            credentials: 'include',
+            body: { ololo: 'trololo '}
+          };
+
+          fetch("/user", options)
+            .then(data => data.json())
+            .then(json => render(JSON.stringify(json)));
+          //end::content[]
+
+          fetch('/message', Object.assign({}, options, {
+            body: JSON.stringify({ ololo: 'trololo '})
+          })).then(resp => resp.text())
+            .then(text => render(text))
+        }, false);
+      }, false);
+    })();
+  </script>
+  <script src="webjars/whatwg-fetch/fetch.js"></script>
+  <script src="webjars/jquery/dist/jquery.slim.min.js"></script>
+  <script src="webjars/tether/dist/js/tether.min.js"></script>
+  <script src="webjars/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

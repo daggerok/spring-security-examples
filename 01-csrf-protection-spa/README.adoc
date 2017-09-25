@@ -1,0 +1,31 @@
+= spring-security-examples image:https://travis-ci.org/daggerok/spring-security-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-security-examples"]
+
+//tag::content[]
+
+user / password can't do post
+admin / admin can
+
+.security configuration
+[source,java]
+----
+include::./src/main/java/daggerok/web/WebSecurityConfig.java[tags=content,indent=0]
+----
+
+.manual logout endpoint
+[source,java]
+----
+include::src/main/java/daggerok/web/IndexPage.java[tags=content,indent=0]
+----
+
+.set header from client cookie on javascript single page app
+[source,javascript]
+----
+include::src/main/resources/static/index.html[tags=content,indent=0]
+----
+
+links:
+
+. link:https://www.youtube.com/watch?v=1pegQ4Bj_aM[youtube talk]
+. link:https://github.com/naturalprogrammer/spring-lemon[some demo]
+
+//end::content[]
