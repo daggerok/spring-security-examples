@@ -1,0 +1,6 @@
+= spring-security-examples image:https://travis-ci.org/daggerok/spring-security-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-security-examples"]
+
+.build and deploy docks
+----
+bash gradlew clean docs
+----

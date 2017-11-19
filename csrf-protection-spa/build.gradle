@@ -1,6 +1,6 @@
 buildscript {
   ext {
-    springBootVersion = "1.5.7.RELEASE"
+    springBootVersion = "1.5.8.RELEASE"
   }
 }
 
@@ -8,7 +8,7 @@ plugins {
   id "java"
   id "idea"
   id "eclipse"
-  id "org.springframework.boot" version "1.5.7.RELEASE"
+  id "org.springframework.boot" version "1.5.8.RELEASE"
 }
 
 springBoot.executable = true
@@ -41,6 +41,6 @@ dependencies {
 }
 
 wrapper {
-  gradleVersion = "4.2"
+  gradleVersion = "4.3.1"
   distributionType = "ALL"
 }

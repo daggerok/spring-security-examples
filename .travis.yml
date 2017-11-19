@@ -29,11 +29,11 @@ before_install:
   - sudo kill $(sudo lsof -t -i:27017) | true
 
 script:
-  - bash gradlew clean build asciidoctor
+  - bash gradlew clean build docs
   - export ROOT=$PWD
   - >
     for path in \
-      01-csrf-protection-spa ;
+      csrf-protection-spa ;
     do
       export TARGET="$ROOT/$path"
       cd $TARGET

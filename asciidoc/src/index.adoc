@@ -15,7 +15,7 @@ Maksim Kostromin <daggerok@gmail.com>
 include::includes/Introduction.adoc[]
 
 == CSRF Protection with Single Page Apps using JS
-include::../../01-csrf-protection-spa/README.adoc[tags=content]
+include::../../csrf-protection-spa/README.adoc[tags=content]
 
 == links
 include::includes/Links.adoc[]

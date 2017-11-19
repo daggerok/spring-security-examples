@@ -8,4 +8,4 @@ VOLUME ["/opt/app"]
 ENTRYPOINT ["java", "-jar", "/opt/app/app.jar"]
 EXPOSE 8080
 HEALTHCHECK --interval=5s --timeout=5s --retries=5 CMD curl -f http://127.0.0.1:8080/ || exit 1
-COPY ./build/libs/01-csrf-protection-spa-0.0.1.jar ./app.jar
+COPY ./build/libs/*.jar ./app.jar

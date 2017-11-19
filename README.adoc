@@ -2,7 +2,7 @@
 
 This repository contains spring-security playgroung projects
 
-. link:01-csrf-protection-spa/[CSRF protection for client javascript on SPA]
+. link:csrf-protection-spa/[CSRF protection for client javascript on SPA]
 
 .publish documentation to GitHub Pages
 [sources,bash]
