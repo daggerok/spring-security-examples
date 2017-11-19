@@ -27,10 +27,11 @@ before_install:
   - sudo pip install docker-compose httpie
   - sudo usermod -aG docker $(whoami)
 
+  # daggerok bash functions
+  - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
+
   # kill whatever punning on postgres / rabbitmq port
-  - sudo kill $(sudo lsof -t -i:5432) | true
-  - sudo kill $(sudo lsof -t -i:5672) | true
-  - sudo kill $(sudo lsof -t -i:27017) | true
+  - stop_any 5432 5672 27017
 
 script:
   - bash gradlew clean build docs
@@ -46,13 +47,12 @@ script:
       bash gradlew composeDown
     done;
 
-before_cache:
-  - bash gradlew --stop
-  - rm -rf $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+#before_cache:
+#  - bash gradlew --stop
+#  - rm -rf $HOME/.gradle/caches/modules-2/modules-2.lock
+#  - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
 
 cache:
   directories:
     - $HOME/.m2/
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+    - $HOME/.gradle/
