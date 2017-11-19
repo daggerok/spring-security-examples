@@ -3,6 +3,7 @@
 This repository contains spring-security playgroung projects
 
 . link:csrf-protection-spa/[CSRF protection for client javascript on SPA]
+. link:keycloak-identity-management/[Keycloack with Spring Boot]
 
 .publish documentation to GitHub Pages
 [sources,bash]

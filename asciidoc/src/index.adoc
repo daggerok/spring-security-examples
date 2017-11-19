@@ -17,6 +17,9 @@ include::includes/Introduction.adoc[]
 == CSRF Protection with Single Page Apps using JS
 include::../../csrf-protection-spa/README.adoc[tags=content]
 
+== Keycloack and Spring Boot
+include::../../keycloak-identity-management/README.adoc[tags=content]
+
 == links
 include::includes/Links.adoc[]
 

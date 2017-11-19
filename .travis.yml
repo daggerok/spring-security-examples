@@ -38,6 +38,7 @@ script:
   - export ROOT=$PWD
   - >
     for path in \
+      keycloak-identity-management \
       csrf-protection-spa ;
     do
       export TARGET="$ROOT/$path"

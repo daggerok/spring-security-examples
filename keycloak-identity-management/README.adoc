@@ -1,0 +1,12 @@
+= spring-security-examples image:https://travis-ci.org/daggerok/spring-security-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-security-examples"]
+
+//tag::content[]
+
+TODO: in progress....
+
+links:
+
+. link:http://www.keycloak.org/[Keycloak project]
+. link:https://www.youtube.com/watch?v=3I4TXPxCCVE[Devoxx talk]
+
+//end::content[]

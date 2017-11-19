@@ -1,0 +1,50 @@
+buildscript {
+  ext {
+    springBootVersion = "1.5.8.RELEASE"
+  }
+}
+
+plugins {
+  id "java"
+  id "idea"
+  id "eclipse"
+  id "org.springframework.boot" version "1.5.8.RELEASE"
+}
+
+springBoot.executable = true
+
+group = "daggerok"
+version = "0.0.1"
+sourceCompatibility = targetCompatibility = 1.8
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compileOnly("org.projectlombok:lombok")
+
+  compile("org.springframework.boot:spring-boot-starter-mustache")
+//  compile("org.springframework.boot:spring-boot-starter-security")
+  compile("org.springframework.boot:spring-boot-starter-validation")
+  compile("org.springframework.boot:spring-boot-starter-web")
+  compile("io.vavr:vavr:0.9.1")
+
+  compile("org.webjars:webjars-locator:0.32-1")
+  compile("org.webjars.npm:jquery:3.2.1")
+  compile("org.webjars.npm:tether:1.4.0")
+  compile("org.webjars.npm:bootstrap:4.0.0-alpha.6")
+  compile("org.webjars.npm:bootswatch:4.0.0-alpha.6")
+  compile("org.webjars.npm:whatwg-fetch:2.0.3")
+  compile("org.webjars.npm:types__whatwg-fetch:0.0.33")
+
+  runtime("org.springframework.boot:spring-boot-devtools")
+
+  testCompile("org.springframework.boot:spring-boot-starter-test")
+//  testCompile("org.springframework.security:spring-security-test")
+}
+
+wrapper {
+  gradleVersion = "4.3.1"
+  distributionType = "ALL"
+}
