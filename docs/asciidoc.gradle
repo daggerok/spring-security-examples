@@ -16,7 +16,7 @@ asciidoctorj {
   version = "1.5.5"
 }
 
-asciidoctor {
+asciidoc {
   sourceDir = project.file("src")
   sources {
     include "index.adoc"
@@ -38,16 +38,16 @@ task docs(type: Copy) {
   from "$buildDir/asciidoc/html5"
   from "$projectDir/src/static"
   into ghPagesFolder
-  dependsOn asciidoctor
-  shouldRunAfter clean, asciidoctor, build
+  dependsOn asciidoc
+  shouldRunAfter clean, asciidoc, build
 }
 
 clean.doFirst {
   delete ghPagesFolder
 }
 
-assemble.dependsOn asciidoctor
-asciidoctor.shouldRunAfter clean
+assemble.dependsOn asciidoc
+asciidoc.shouldRunAfter clean
 
 task wrapper(type: Wrapper) {
   gradleVersion = "4.3.1"
