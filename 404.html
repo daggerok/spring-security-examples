@@ -817,15 +817,18 @@ fetch(<span class="string"><span class="delimiter">&quot;</span><span class="con
 <li>
 <p>facebook</p>
 </li>
+<li>
+<p>facebook + github together</p>
+</li>
 </ol>
 </div>
 <div class="listingblock">
 <div class="title">build</div>
 <div class="content">
 <pre>bash ./mvnw
-bash spring-mvc-facebook/target/*.jar
-
 bash ./gradlew
+bash spring-mvc-facebook-github/target/*.jar
+bash spring-mvc-facebook/build/libs/*.jar
 bash spring-mvc-github/build/libs/*.jar
 
 http :8080
