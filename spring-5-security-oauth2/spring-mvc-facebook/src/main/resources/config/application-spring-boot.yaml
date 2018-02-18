@@ -1,0 +1,8 @@
+spring:
+  output.ansi.enabled: always
+management:
+  endpoints:
+    web:
+      expose: '*'
+    health:
+      show-details: true

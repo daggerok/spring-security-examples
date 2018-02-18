@@ -2,12 +2,7 @@
 
 This repository contains spring-security playgroung projects
 
+. link:spring-5-security-oauth2/[Spring 5 | Spring Security OAuth2 | Spring Boot 2 | Github | Facebook]
 . link:csrf-protection-spa/[CSRF protection for client javascript on SPA]
 . link:keycloak-identity-management/[Keycloack with Spring Boot]
 . link:https://github.com/daggerok/csrf-spring-webflux-mustache/[Webflux, Reactive security, CSRF, etc..]
-
-.publish documentation to GitHub Pages
-[sources,bash]
-----
-./gradlew clean gitPublishPush
-----

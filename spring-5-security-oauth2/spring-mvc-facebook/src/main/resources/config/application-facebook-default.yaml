@@ -1,0 +1,10 @@
+# 1. cp -Rf src/main/resources/config/application-facebook-default.yaml src/main/resources/config/application-facebook.yaml
+# 2. register oauth2 app and replace client-id / client-secret values
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          facebook:
+            client-id: ${SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_FACEBOOK_CLIENTID:changeme}
+            client-secret: ${SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_FACEBOOK_CLIENTSECRET:changeme}

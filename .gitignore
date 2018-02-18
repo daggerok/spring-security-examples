@@ -1,8 +1,12 @@
+application-facebook.yaml
+application-oauth2.yaml
+application-github.yaml
 spring-cloud-dataflow-server-kubernetes/
 hidden-*
 .gradle/
+target/
 build/
-!gradle-wrapper.jar
+out/
 
 ### STS ###
 .apt_generated

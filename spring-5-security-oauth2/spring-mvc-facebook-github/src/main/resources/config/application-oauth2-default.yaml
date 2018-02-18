@@ -1,0 +1,13 @@
+# 1. cp -Rf src/main/resources/config/application-github-default.yaml src/main/resources/config/application-github.yaml
+# 2. register oauth2 apps and replace client-id / client-secret values
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          facebook:
+            client-id: ${SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_FACEBOOK_CLIENTID:changeme}
+            client-secret: ${SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_FACEBOOK_CLIENTSECRET:changeme}
+          github:
+            client-id: ${SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENTID:changeme}
+            client-secret: ${SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENTSECRET:changeme}

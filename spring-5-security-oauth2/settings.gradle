@@ -1,3 +1,4 @@
 rootProject.name = "spring-5-security-oauth2"
-//// TODO: add here your first subproject
-//include "my-sub-project"
+include "spring-mvc-github"
+include "spring-mvc-facebook"
+include "spring-mvc-facebook-github"
