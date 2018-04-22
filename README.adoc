@@ -2,7 +2,7 @@
 
 This repository contains spring-security playgroung projects
 
-. link:https://github.com/daggerok/spring-security-testing[yet amother spring secururity repository]
+. link:https://github.com/daggerok/spring-security-testing[yet another spring secururity repository]
 . link:spring-5-security-oauth2/[Spring 5 | Spring Security OAuth2 | Spring Boot 2 | Github | Facebook]
 . link:csrf-protection-spa/[CSRF protection for client javascript on SPA]
 . link:keycloak-identity-management/[Keycloack with Spring Boot]
