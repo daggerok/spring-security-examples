@@ -1,7 +1,6 @@
 service:
 - docker
-sudo: required
-group: trusty_lts
+
 env:
   global:
   - TERM=dumb
@@ -9,35 +8,37 @@ env:
   - secure: "KJVdsTw/MXIfLTkVQdqrhi5XlE+puJc+FCkG6p5HC5vUSsb+Ws1v3jJs4U8TYEjf/vvvVlGU5VjoL6MUDb1VfTgTjyhm9bWzZGihgcTMsKpoIjV8sx55RJfTyp3i34qZlwdeQheKjzAMRlKKng3kPH7tW22sNfBRBSpWokYlDuKJfvKWLmvVqpJDyMcDSV9g1EyQRCPitVZrtE7zE2wJrL6DHuw0NzyuicNlK7t9gZaqNdndZtoKXa1akYu+2yDHFGsTwG7WnfM8doj1t7dwzP3Yp194iApGY0r/S0V25qkwA4kpWb4btkmcdDopnKxxiH8KUl+ipZqgOojpz/ybetxP8+kKeXCA1TPBYvKMlaiM5Hvszb6J5duYSDeblCJ3B2jLbwtnWlTHlLhZssWc7gkIjRmJHt+oNQVNdyjo/uqIkkrqUMhW/Gtp0QxEePjQVhKMsPP3L6+XAWvpsJqir/VRV4GQz4A1K9849U70xrWX2cAqC0Jtbp4hiaFNupfzfbHQntb2puU7e4KFVyjxa6jmvivEQAqAnMQq1gZXsmIpwa/WpK/crEHI+U1lmxofHGB9OlufWsLihfwUTx0tni93ejzW9lm2AFQou0wb6ikbVnMG3H8OSyAUlYzdqjibBRiH1PJITEF5jmtgfB/gXweUCpITYx6H1g2v5PVRkZc="
   - secure: "SoovFaVjC32qyVnqSiwI2d6oJ+H3gKtisWwXd8lheDVSJ7UVPrOgyBugcnuuVffqPZdBIBfG7IjEYqrWNrl1rfJcqhxZbIbG0Pi004bos/tJIA1nQCcS2zgY8w+edKTFfKdncs9BgnoMXFL2EYwq91S5QGN2sZ5B0ovLiKQAavo52tz/B+p/cJg/+gOfMs4Q6FaDbDavaBX/3PW4+x4TydqtJ36m8TFzmqj0VFXwZW5AgyO/L24XJUqlEUL/CIZKtfwk29PdKf+Jm1MmK8Vmrp6I6NFx13wu07K6eX/qpAtfo/weK7ffz02FbCdsn0LEowgnHb3zH4AUHGYjgaxMrvZiWsXC/85btY2TpFR591TVIAzbCZXlELCeXUyCiPN1A61a3WXQewbtAls4+2NZqM9K/f+UOzHtxjRqPA9WKT8AxhgMhJbh/BGrATa5EgrGJxNAf3RACUTRAHWOXVfmltErUw+pd7eaAFivcwQCKqm2S0hd1Tat3dqb3sW23uyF9FnQMlJIh0nv5fKu/XvQ4B8fOrRh9Owqk8rC5VPJNjhLONZwxMRtvgnlG3Aw1T4AQ4+bLTMWHtqH41vfh07ByZ2vYZlTJu1yf4wmcNAHTK5PnM2cJ3TTE+w+Qw+iw27bXADGB+EPZlSG9FbSazR4brMg9dKi4tTgvSSxDckNwmQ="
   - secure: "TaCM9QXWnGaUQijGrK34uid9BCUpLC1nF6HuSJg95m2QzoqQJZDBLYv2qD3SD91DwCM7iFlrCABTEDO6m9qT5D+lGpmnDWSJvI20o9bUwKfIM1TWc4HGVyRurvQUuYaYu9sC0pYjDOBZo6lBVGXG4+6NeFtdEBzGkV+OnN80TbcMxZU25p1R/H0CFDzAe20HlyN9hVSBe1cAFE8fw2dY4t87eAbbLNh3KwhMK++Gct8xzK+cbBc9D0YfhO585lvE4N379C/JiI4oNS77mIqdXYztz/cKTAfbU6AB0efgKy9BpexcdLQp4wnVGzI6stew/f63Gu0rXMvwXqbtjVNKP9Bn9yHnAloKM5RkhnZp+/tEIrW/kSitEOLOSkxecRJyakX6uFSkxycoupW8pP/bXpqLoIKU3TaK/tSNm1sWLsCTBuas6xNcjALUxk7qeN6GZ7svfUu6abJCdTtnkw7l/EdjstvEASkeoGQwmIBbaUwbOMvpD5Ge/1U5cmwEEdoYUS6//9iIAkJohgeALtzjvZCmo3jBoIfqmZZafAhiI2ZnFQxhAsceF1Ncx8ktxYSqhXSpfJoEIT90rimZVux7ay7mvmGv4SmIWAGNs1x0Zs8V+An537eyntrtYi/mjeYwHOkGcFXTtiS/RnAHtf0KwR/Xeidt0nLUoUjqXf1hkCA="
+
+#jdk:
+#- openjdk8
+#- oraclejdk8
+
 language: java
-jdk:
-- openjdk8
-- oraclejdk8
+jdk: oraclejdk8
+
 install: true
 before_install:
-- sudo apt update -y || true
-# frontend tests
+- sudo apt update -y >/dev/null 2>&1 || true
 - export CHROME_BIN=/usr/bin/google-chrome
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
-- sudo apt install -y --no-install-recommends docker-ce python-pip curl jq libxml2-utils libappindicator1 fonts-liberation
+- sudo apt install -y --no-install-recommends docker-ce python-pip curl jq libxml2-utils libappindicator1 fonts-liberation >/dev/null 2>&1
 - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-- sudo dpkg -i google-chrome*.deb
-- sudo pip install docker-compose httpie
-# daggerok bash functions
+- sudo dpkg -i google-chrome*.deb >/dev/null 2>&1
+- sudo pip install docker-compose httpie >/dev/null 2>&1
 - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
-# kill whatever punning on postgres / rabbitmq port
 - stop_any 5432 5672 27017 8080 80
+
 script:
-- bash gradlew clean build asciidoctor
+- bash gradlew clean build asciidoctor >/dev/null
 - export ROOT=$PWD
 #
 - cp -Rf ${ROOT}/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/config/application-facebook-default.yaml ${ROOT}/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/config/application-facebook.yaml
 - cp -Rf ${ROOT}/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/config/application-oauth2-default.yaml ${ROOT}/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/config/application-oauth2.yaml
 - cp -Rf ${ROOT}/spring-5-security-oauth2/spring-mvc-github/src/main/resources/config/application-github-default.yaml ${ROOT}/spring-5-security-oauth2/spring-mvc-github/src/main/resources/config/application-github.yaml
 #
-- bash ./mvnw -f ${ROOT}/spring-5-security-oauth2/pom.xml
-- bash ./gradlew -b ${ROOT}/spring-5-security-oauth2/build.gradle
+- bash ./mvnw -f ${ROOT}/spring-5-security-oauth2/pom.xml >/dev/null
+- bash ./gradlew -b ${ROOT}/spring-5-security-oauth2/build.gradle >/dev/null
 #
 - bash ${ROOT}/spring-5-security-oauth2/spring-mvc-facebook/target/*.jar &
 - wait_for 8080
@@ -61,7 +62,7 @@ script:
   do
     export TARGET="$ROOT/$path"
     cd $TARGET
-    bash gradlew clean assemble
-    bash gradlew composeUp
+    bash gradlew clean assemble >/dev/null
+    bash gradlew composeUp >/dev/null
     bash gradlew composeDown
   done;
