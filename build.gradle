@@ -1,9 +1,12 @@
 plugins {
   id "idea"
+  id "base"
   id "eclipse"
 }
 
 wrapper {
-  gradleVersion = "4.5.1"
+  gradleVersion = "4.7"
   distributionType = "ALL"
 }
+
+defaultTasks "clean", "build", "asciidoctor"
