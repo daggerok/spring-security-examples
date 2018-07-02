@@ -82,6 +82,7 @@ env:
 
 debfore_deploy:
 - cd $root/
+- ./gradlew --stop
 - ./mvnw -Pdocs
 
 deploy:
