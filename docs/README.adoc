@@ -1,7 +1,0 @@
-= spring-security-examples image:https://travis-ci.org/daggerok/spring-security-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-security-examples"]
-
-.publish documentation to GitHub Pages
-[sources,bash]
-----
-./gradlew clean docs
-----
