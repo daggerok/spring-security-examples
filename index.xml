@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+<book xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
+<info>
+<title>spring-security-examples spring-security-examples (0.0.1)</title>
+<date>2018-07-02 12:27:21 UTC</date>
+<author>
+<personname>
+<firstname>Maksim</firstname>
+<surname>Kostromin</surname>
+</personname>
+<email>daggerok@gmail.com</email>
+</author>
+<authorinitials>MK</authorinitials>
+<revhistory>
+<revision>
+<revnumber>0.0.1</revnumber>
+<date>2018-07-02 12:27:21 UTC</date>
+<authorinitials>MK</authorinitials>
+</revision>
+</revhistory>
+</info>
+<preface>
+<title></title>
+<bridgehead xml:id="introduction" renderas="sect1">Introduction</bridgehead>
+<simpara>This documentation contains some help to
+<link xl:href="{github_url}">examples from spring-security-examples repository</link>.
+It&#8217;s contains some spring-security playground projects</simpara>
+</preface>
+<chapter xml:id="csrf-protection-with-single-page-apps-using-js">
+<title>CSRF Protection with Single Page Apps using JS</title>
+<simpara>user / password can&#8217;t do post
+admin / admin can</simpara>
+<formalpara>
+<title>security configuration</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+  @Override
+  @Autowired
+  protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+
+    auth
+        .inMemoryAuthentication()
+        .withUser("user")
+          .password("password")
+          .roles("USER")
+          .and()
+        .withUser("admin")
+          .password("admin")
+          .roles("ADMIN");
+  }
+
+  @Override
+  public void configure(final WebSecurity web) throws Exception {
+
+    web.ignoring()
+       .antMatchers(
+           "/favicon.ico",
+           "/webjars/**",
+           "/login.html",
+           "/index.html",
+           "/logout.html"
+       );
+  }
+
+  @Override
+  protected void configure(final HttpSecurity http) throws Exception {
+
+    http
+        .authorizeRequests()
+          .antMatchers(POST)
+          .hasRole("ADMIN")
+        .anyRequest()
+          .authenticated()
+          .and()
+        .formLogin()
+          .defaultSuccessUrl("/", true)
+          .permitAll()
+          .and()
+        .logout()
+          .logoutUrl("/logout")
+          .logoutSuccessUrl("/")
+          .clearAuthentication(true)
+          .deleteCookies("JSESSIONID")
+          .invalidateHttpSession(false)
+          .permitAll()
+          .and()
+        .headers()
+          .frameOptions()
+          .sameOrigin()
+          .and()
+        .csrf()
+          .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+          .and()
+        .sessionManagement()
+          .sessionCreationPolicy(SessionCreationPolicy.NEVER)
+    ;
+  }
+}</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>manual logout endpoint</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">@GetMapping("/logout")
+public String logoutGet(final HttpServletRequest request, final HttpServletResponse response) {
+  return logout(request, response);
+}
+
+@PostMapping("/logout")
+public String logoutPost(final HttpServletRequest request, final HttpServletResponse response) {
+  return logout(request, response);
+}
+
+private String logout(final HttpServletRequest request, final HttpServletResponse response) {
+
+  Optional.ofNullable(SecurityContextHolder.getContext())
+          .map(SecurityContext::getAuthentication)
+          .ifPresent(authentication -&gt; new SecurityContextLogoutHandler().logout(request, response, authentication));
+
+  return "redirect:/login";
+}</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>set header from client cookie on javascript single page app</title>
+<para>
+<programlisting language="javascript" linenumbering="unnumbered">function getCookie(cookiePrefix) {
+  var name = cookiePrefix + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i &lt; ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+var headers = {
+  'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
+  'content-type': 'application/json',
+};
+
+var options = {
+  method: 'post',
+  headers: headers,
+  credentials: 'include',
+  body: { ololo: 'trololo '}
+};
+
+fetch("/user", options)
+  .then(data =&gt; data.json())
+  .then(json =&gt; render(JSON.stringify(json)));</programlisting>
+</para>
+</formalpara>
+<simpara>links:</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><link xl:href="https://www.youtube.com/watch?v=1pegQ4Bj_aM">youtube talk</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/naturalprogrammer/spring-lemon">some demo</link></simpara>
+</listitem>
+</orderedlist>
+</chapter>
+<chapter xml:id="keycloack-and-spring-boot">
+<title>Keycloack and Spring Boot</title>
+<simpara>TODO: in progress&#8230;&#8203;.</simpara>
+<simpara>links:</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><link xl:href="http://www.keycloak.org/">Keycloak project</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://www.youtube.com/watch?v=3I4TXPxCCVE">Devoxx talk</link></simpara>
+</listitem>
+</orderedlist>
+</chapter>
+<chapter xml:id="spring-5-security-oauth2-github-facebook">
+<title>Spring 5 Security OAuth2 (Github / Facebook)</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>spring-framework 5</simpara>
+</listitem>
+<listitem>
+<simpara>spring-boot 2</simpara>
+</listitem>
+<listitem>
+<simpara>oauth2</simpara>
+</listitem>
+<listitem>
+<simpara>github</simpara>
+</listitem>
+<listitem>
+<simpara>facebook</simpara>
+</listitem>
+<listitem>
+<simpara>facebook + github together</simpara>
+</listitem>
+</orderedlist>
+<formalpara>
+<title>build</title>
+<para>
+<screen>bash ./mvnw
+bash ./gradlew
+bash spring-mvc-facebook-github/target/*.jar
+bash spring-mvc-facebook/build/libs/*.jar
+bash spring-mvc-github/build/libs/*.jar
+
+http :8080
+http :8080/login</screen>
+</para>
+</formalpara>
+<simpara>TODO:</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>authorization callback URL: <link xl:href="http://localhost:8080/login/oauth2/code/github">http://localhost:8080/login/oauth2/code/github</link> (github is registration id from applicatin.yaml)</simpara>
+</listitem>
+<listitem>
+<simpara>okta</simpara>
+</listitem>
+<listitem>
+<simpara>google</simpara>
+</listitem>
+</orderedlist>
+<simpara>links:</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><link xl:href="https://www.youtube.com/watch?v=WhrOCurxFWU">Next Generation OAuth Support with Spring Security 5.0 - Joe Grandja</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/jgrandja/springone2017-demo/blob/master/src/main/resources/application.yml">Github: jgrandja/springone2017-demo</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://spring.io/guides/tutorials/spring-boot-oauth2/">Spring Boot and OAuth2</link></simpara>
+</listitem>
+</orderedlist>
+<simpara>generated by <link xl:href="https://github.com/daggerok/generator-daggerok-fatjar/">daggerok-fatjar</link> yeoman generator</simpara>
+</chapter>
+<chapter xml:id="links">
+<title>links</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><link xl:href="http://asciidoctor.org/docs/user-manual/#builtin-attributes">Asciidoctor attributes</link></simpara>
+</listitem>
+</orderedlist>
+</chapter>
+<chapter xml:id="enjoy">
+<title>Enjoy! :)</title>
+
+</chapter>
+</book>
