@@ -1,0 +1,31 @@
+= spring-security-examples {root-project-name} ({project-version})
+Maksim Kostromin <daggerok@gmail.com>
+{docdatetime}
+:toc:
+:revnumber: {project-version}
+:example-caption!:
+:icons: font
+:toc: left
+:numbered:
+:github_branch_prefix: {github_url}/tree
+
+[discrete]
+
+ifdef::backend-html5[image:https://travis-ci.org/daggerok/{root-project-name}.svg?branch=master["Build Status", link={github_url}]]
+
+== Introduction
+include::includes/Introduction.adoc[]
+
+== CSRF Protection with Single Page Apps using JS
+include::../csrf-protection-spa/README.adoc[tags=content]
+
+== Keycloack and Spring Boot
+include::../keycloak-identity-management/README.adoc[tags=content]
+
+== Spring 5 Security OAuth2 (Github / Facebook)
+include::../spring-5-security-oauth2/README.adoc[tags=content]
+
+== links
+include::includes/Links.adoc[]
+
+== Enjoy! :)
