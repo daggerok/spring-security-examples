@@ -11,7 +11,7 @@ Maksim Kostromin <daggerok@gmail.com>
 
 [discrete]
 
-ifdef::backend-html5[image:https://travis-ci.org/daggerok/{root-project-name}.svg?branch=master["Build Status", link={github_url}]]
+ifdef::backend-html5[Travis CI build status: image:https://travis-ci.org/daggerok/{root-project-name}.svg?branch=master["Build Status", link={github_url}]]
 
 == Introduction
 include::includes/Introduction.adoc[]
