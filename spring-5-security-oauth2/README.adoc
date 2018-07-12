@@ -12,9 +12,8 @@
 
 .build
 ----
-bash ./mvnw
 bash ./gradlew
-bash spring-mvc-facebook-github/target/*.jar
+bash spring-mvc-facebook-github/build/libs/*.jar
 bash spring-mvc-facebook/build/libs/*.jar
 bash spring-mvc-github/build/libs/*.jar
 
