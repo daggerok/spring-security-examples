@@ -1,6 +1,8 @@
 = spring-5-security-oauth2 image:https://travis-ci.org/daggerok/spring-security-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-security-examples"]
 
 //tag::content[]
+=== spring-5-security-oauth2
+
 . spring-framework 5
 . spring-boot 2
 . oauth2

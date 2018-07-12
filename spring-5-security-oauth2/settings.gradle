@@ -1,4 +1,4 @@
-rootProject.name = "spring-5-security-oauth2"
-include "spring-mvc-github"
-include "spring-mvc-facebook"
-include "spring-mvc-facebook-github"
+rootProject.name = 'spring-5-security-oauth2'
+include 'spring-mvc-github'
+include 'spring-mvc-facebook'
+include 'spring-mvc-facebook-github'

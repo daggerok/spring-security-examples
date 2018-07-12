@@ -30,12 +30,13 @@ script:
 - bash gradlew clean build asciidoctor >/dev/null
 - export root=$(pwd)
 #
-- cp -Rf ${root}/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/config/application-facebook-default.yaml ${root}/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/config/application-facebook.yaml
-- cp -Rf ${root}/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/config/application-oauth2-default.yaml ${root}/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/config/application-oauth2.yaml
-- cp -Rf ${root}/spring-5-security-oauth2/spring-mvc-github/src/main/resources/config/application-github-default.yaml ${root}/spring-5-security-oauth2/spring-mvc-github/src/main/resources/config/application-github.yaml
+- cp -Rf ${root}/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/application-oauth2-default.yaml ${root}/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/application-oauth2.yaml
+- cp -Rf ${root}/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/application-oauth2-default.yaml ${root}/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/application-oauth2.yaml
+- cp -Rf ${root}/spring-5-security-oauth2/spring-mvc-github/src/main/resources/application-oauth2-default.yaml ${root}/spring-5-security-oauth2/spring-mvc-github/src/main/resources/application-oauth2.yaml
 #
 - bash ./mvnw -f ${root}/spring-5-security-oauth2/pom.xml >/dev/null
-- bash ./gradlew -b ${root}/spring-5-security-oauth2/build.gradle >/dev/null
+#
+- bash ./gradlew -Pci -b ${root}/spring-5-security-oauth2/build.gradle >/dev/null
 #
 - bash ${root}/spring-5-security-oauth2/spring-mvc-facebook/target/*.jar &
 - wait_for 8080

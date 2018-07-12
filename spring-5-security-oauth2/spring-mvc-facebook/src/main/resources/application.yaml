@@ -1,5 +1,5 @@
 spring:
   profiles:
     include:
-    - facebook
+    - oauth2
     - spring-boot

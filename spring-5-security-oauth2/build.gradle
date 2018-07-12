@@ -1,43 +1,84 @@
 buildscript {
   ext {
-    javaVersion = "1.8"
-    vavrVersion = "0.9.2"
+    javaVersion = JavaVersion.VERSION_1_8
+    springBootVersion = '2.0.3.RELEASE'
+    lombokVersion = '1.16.22'
+    vavrVersion = '0.9.2'
+  }
+  repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/snapshot' }
+    maven { url 'https://repo.spring.io/milestone' }
+  }
+  dependencies {
+    classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
   }
 }
 
 plugins {
-  id "idea"
-  id "eclipse"
+  id 'idea'
+  id 'eclipse'
+  id 'io.franzbecker.gradle-lombok' version '1.14' apply false
+  id 'com.avast.gradle.docker-compose' version '0.6.13' apply false
 }
 
 allprojects {
+  apply plugin: 'base'
+  group = 'com.github.daggerok'
+  version = '0.0.1'
+  defaultTasks 'clean', 'build'
 
-  apply plugin: "base"
-  apply plugin: "maven"
-
-  group = "daggerok"
-  version = "0.0.1"
-
-  defaultTasks "clean", "build"
-
-  task wrapper(type: Wrapper) {
-    gradleVersion = "4.5.1"
-    distributionType = "ALL"
+  apply plugin: 'maven'
+  repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/snapshot' }
+    maven { url 'https://repo.spring.io/milestone' }
   }
-}
 
-subprojects {
-
-  apply plugin: "java"
-
+  apply plugin: 'java'
   sourceCompatibility = targetCompatibility = "$javaVersion"
 
-  repositories {
-    mavenLocal()
-    mavenCentral()
-  }
+  apply plugin: 'io.franzbecker.gradle-lombok'
+  lombok.version = project.lombokVersion
 
   dependencies {
     compile "io.vavr:vavr:$vavrVersion"
   }
+}
+
+if (project.hasProperty('ci')) {
+
+/*
+  subprojects {
+    Task copyTask = tasks.create(name: 'copy-yaml') {
+      file("$project.projectDir/src/main/resources/application-oauth2.yaml").text =
+          file("$project.projectDir/src/main/resources/application-oauth2-default.yaml").text
+    }
+    assemble.dependsOn copyTask
+    assemble.shouldRunAfter copyTask
+  }
+*/
+
+  subprojects {
+    Task copyTask = tasks.create(name: 'copy-yaml', type: Copy) {
+      from "$project.projectDir/src/main/resources/application-oauth2-default.yaml"
+      rename { String filename ->
+        return filename.replace('-default.yaml', '.yaml')
+      }
+      into "$project.projectDir/src/main/resources/"
+    }
+
+    clean {
+      delete "$project.projectDir/src/main/resources/application-oauth2.yaml"
+    }
+
+    copyTask.shouldRunAfter(clean)
+
+    assemble.dependsOn copyTask
+    assemble.shouldRunAfter copyTask
+  }
+}
+
+wrapper {
+  gradleVersion = '4.8.1'
 }
