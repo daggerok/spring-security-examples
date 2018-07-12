@@ -38,7 +38,7 @@ script:
 #
 - bash ./gradlew -Pci -b ${root}/spring-5-security-oauth2/build.gradle >/dev/null
 #
-- bash ${root}/spring-5-security-oauth2/spring-mvc-facebook/target/*.jar &
+- java -jar ${root}/spring-5-security-oauth2/spring-mvc-facebook/target/*.jar &
 - wait_for 8080
 - http :8080/login
 - stop_any 8080 80
