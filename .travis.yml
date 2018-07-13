@@ -34,11 +34,9 @@ script:
 - cp -Rf ${root}/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/application-oauth2-default.yaml ${root}/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/application-oauth2.yaml
 - cp -Rf ${root}/spring-5-security-oauth2/spring-mvc-github/src/main/resources/application-oauth2-default.yaml ${root}/spring-5-security-oauth2/spring-mvc-github/src/main/resources/application-oauth2.yaml
 #
-- bash ./mvnw -f ${root}/spring-5-security-oauth2/pom.xml >/dev/null
-#
 - bash ./gradlew -Pci -b ${root}/spring-5-security-oauth2/build.gradle >/dev/null
 #
-- java -jar ${root}/spring-5-security-oauth2/spring-mvc-facebook/target/*.jar &
+- java -jar ${root}/spring-5-security-oauth2/spring-mvc-facebook/build/libs/*.jar &
 - wait_for 8080
 - http :8080/login
 - stop_any 8080 80
