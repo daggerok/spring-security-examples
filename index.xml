@@ -4,7 +4,7 @@
 <book xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
 <info>
 <title>spring-security-examples spring-security-examples (0.0.1)</title>
-<date>2018-07-12 20:03:59 UTC</date>
+<date>2018-07-13 11:44:49 UTC</date>
 <author>
 <personname>
 <firstname>Maksim</firstname>
@@ -16,7 +16,7 @@
 <revhistory>
 <revision>
 <revnumber>0.0.1</revnumber>
-<date>2018-07-12 20:03:59 UTC</date>
+<date>2018-07-13 11:44:49 UTC</date>
 <authorinitials>MK</authorinitials>
 </revision>
 </revhistory>
@@ -211,9 +211,8 @@ fetch("/user", options)
 <formalpara>
 <title>build</title>
 <para>
-<screen>bash ./mvnw
-bash ./gradlew
-bash spring-mvc-facebook-github/target/*.jar
+<screen>bash ./gradlew
+bash spring-mvc-facebook-github/build/libs/*.jar
 bash spring-mvc-facebook/build/libs/*.jar
 bash spring-mvc-github/build/libs/*.jar
 
