@@ -56,7 +56,7 @@ script:
     web-driver-security-testing \
     web-mvc-security-testing-with-mock-user \
   ; do
-    bash ${root}/${project}/mvnw -f ${root}/${project}/pom.xml
+    bash ${root}/${project}/mvnw -f ${root}/${project}/pom.xml >/dev/null
     java -jar ${root}/${project}/target/*.jar &
     wait_for 8080
     http :8080/
