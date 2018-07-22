@@ -542,7 +542,7 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.0.1,</span>
-<span id="revdate">2018-07-13 11:44:49 UTC</span>
+<span id="revdate">2018-07-22 21:33:28 UTC</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -555,8 +555,13 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#spring-5-security-oauth2">4.1. spring-5-security-oauth2</a></li>
 </ul>
 </li>
-<li><a href="#links">5. links</a></li>
-<li><a href="#enjoy">6. Enjoy! :)</a></li>
+<li><a href="#others">5. Others</a>
+<ul class="sectlevel2">
+<li><a href="#web-mvc-testing-with-mock-user">5.1. Web MVC: testing with mock user</a></li>
+</ul>
+</li>
+<li><a href="#links">6. links</a></li>
+<li><a href="#enjoy">7. Enjoy! :)</a></li>
 </ul>
 </div>
 </div>
@@ -828,7 +833,143 @@ http :8080/login</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="links"><a class="anchor" href="#links"></a>5. links</h2>
+<h2 id="others"><a class="anchor" href="#others"></a>5. Others</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="web-mvc-testing-with-mock-user"><a class="anchor" href="#web-mvc-testing-with-mock-user"></a>5.1. Web MVC: testing with mock user</h3>
+<div class="listingblock">
+<div class="title">security config</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Log4j2</span>
+<span class="annotation">@Configuration</span>
+<span class="annotation">@EnableWebSecurity</span>
+<span class="annotation">@EnableGlobalMethodSecurity</span>(prePostEnabled = <span class="predefined-constant">true</span>)
+<span class="type">class</span> <span class="class">SecurityConfig</span> <span class="directive">extends</span> WebSecurityConfigurerAdapter {
+
+  <span class="annotation">@Override</span>
+  <span class="directive">protected</span> <span class="type">void</span> configure(HttpSecurity http) <span class="directive">throws</span> <span class="exception">Exception</span> {
+    <span class="comment">//@formatter:off</span>
+    http
+        .authorizeRequests()
+          .antMatchers(<span class="string"><span class="delimiter">&quot;</span><span class="content">/login</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">/webjars</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">/favicon.*</span><span class="delimiter">&quot;</span></span>)
+            .permitAll()
+          .anyRequest()
+            .fullyAuthenticated()
+          .and()
+        .formLogin()
+          .defaultSuccessUrl(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>)
+          .failureUrl(<span class="string"><span class="delimiter">&quot;</span><span class="content">/login?error</span><span class="delimiter">&quot;</span></span>)
+          .failureForwardUrl(<span class="string"><span class="delimiter">&quot;</span><span class="content">/login?failure</span><span class="delimiter">&quot;</span></span>)
+          .and()
+        .logout()
+          .clearAuthentication(<span class="predefined-constant">true</span>)
+          .invalidateHttpSession(<span class="predefined-constant">true</span>)
+          .deleteCookies(<span class="string"><span class="delimiter">&quot;</span><span class="content">JSESSIONID</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">PLAY_SESSION</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">NXSESSIONID</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">csrfToken</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">SESSION</span><span class="delimiter">&quot;</span></span>)
+          .permitAll(<span class="predefined-constant">true</span>)
+    ;
+    <span class="comment">//@formatter:on</span>
+  }
+
+  <span class="annotation">@Override</span>
+  <span class="annotation">@Autowired</span>
+  <span class="directive">protected</span> <span class="type">void</span> configure(AuthenticationManagerBuilder auth) <span class="directive">throws</span> <span class="exception">Exception</span> {
+    auth
+        .inMemoryAuthentication()
+          .withUser(<span class="string"><span class="delimiter">&quot;</span><span class="content">usr</span><span class="delimiter">&quot;</span></span>)
+          .password(passwordEncoder().encode(<span class="string"><span class="delimiter">&quot;</span><span class="content">pwd</span><span class="delimiter">&quot;</span></span>))
+          .roles(<span class="string"><span class="delimiter">&quot;</span><span class="content">APP</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">APP_USER</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">APPLICATION_USER</span><span class="delimiter">&quot;</span></span>);
+  }
+
+  <span class="annotation">@Bean</span>
+  PasswordEncoder passwordEncoder() {
+    <span class="keyword">return</span> PasswordEncoderFactories.createDelegatingPasswordEncoder();
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">application controller</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">index.page</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">&lt;!DOCTYPE html&gt;
+&lt;html lang=<span class="string"><span class="delimiter">&quot;</span><span class="content">en</span><span class="delimiter">&quot;</span></span> x&gt;
+&lt;head&gt;
+  &lt;meta charset=<span class="string"><span class="delimiter">&quot;</span><span class="content">UTF-8</span><span class="delimiter">&quot;</span></span>&gt;
+  &lt;title&gt;Index page&lt;/title&gt;
+  &lt;link rel=<span class="string"><span class="delimiter">&quot;</span><span class="content">shortcut icon</span><span class="delimiter">&quot;</span></span> th:href=<span class="error">@</span>{<span class="string"><span class="delimiter">&quot;</span><span class="content">favicon.ico</span><span class="delimiter">&quot;</span></span>} type=<span class="string"><span class="delimiter">&quot;</span><span class="content">image/x-icon</span><span class="delimiter">&quot;</span></span>&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Hola!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">testing unauthorized access: application must redirect user to login page</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@RunWith</span>(SpringRunner.class)
+<span class="annotation">@SpringBootTest</span>(webEnvironment = RANDOM_PORT)
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MockMvcSecurityTests</span> {
+
+  <span class="annotation">@Autowired</span>
+  WebApplicationContext wac;
+
+  <span class="directive">private</span> MockMvc mvc;
+
+  <span class="annotation">@Before</span>
+  <span class="directive">public</span> <span class="type">void</span> setup() {
+    <span class="local-variable">this</span>.mvc = MockMvcBuilders.webAppContextSetup(wac)
+                              .apply(springSecurity())
+                              .build();
+  }
+
+  <span class="annotation">@Test</span>
+  <span class="annotation">@SneakyThrows</span>
+  <span class="directive">public</span> <span class="type">void</span> unauthorized_request_should_be_redirected_to_login_page() {
+    mvc.perform(get(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>))
+       .andExpect(status().isFound())
+       .andExpect(header().string(<span class="string"><span class="delimiter">&quot;</span><span class="content">location</span><span class="delimiter">&quot;</span></span>, containsString(<span class="string"><span class="delimiter">&quot;</span><span class="content">/login</span><span class="delimiter">&quot;</span></span>)))
+    ;
+  }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">testing login page: must be publicly accessible for non-authorized users</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">  <span class="annotation">@Test</span>
+  <span class="annotation">@SneakyThrows</span>
+  <span class="directive">public</span> <span class="type">void</span> login_page_is_publicly_accessible() {
+    mvc.perform(get(<span class="string"><span class="delimiter">&quot;</span><span class="content">/login</span><span class="delimiter">&quot;</span></span>))
+       .andExpect(status().isOk())
+    ;
+  }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">testing authorized request</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">  <span class="annotation">@Test</span>
+  <span class="annotation">@SneakyThrows</span>
+  <span class="annotation">@WithMockUser</span>
+  <span class="directive">public</span> <span class="type">void</span> authorized_request_test() {
+    mvc.perform(get(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>))
+       .andExpect(status().isOk())
+       .andExpect(content().contentType(parseMediaType(<span class="string"><span class="delimiter">&quot;</span><span class="content">text/html;charset=UTF-8</span><span class="delimiter">&quot;</span></span>)))
+       .andExpect(content().string(containsString(<span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;title&gt;Index page&lt;/title&gt;</span><span class="delimiter">&quot;</span></span>)))
+    ;
+  }</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="links"><a class="anchor" href="#links"></a>6. links</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -840,7 +981,7 @@ http :8080/login</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="enjoy"><a class="anchor" href="#enjoy"></a>6. Enjoy! :)</h2>
+<h2 id="enjoy"><a class="anchor" href="#enjoy"></a>7. Enjoy! :)</h2>
 <div class="sectionbody">
 
 </div>
@@ -849,7 +990,7 @@ http :8080/login</pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1<br>
-Last updated 2018-07-13 11:44:49 UTC
+Last updated 2018-07-22 21:33:28 UTC
 </div>
 </div>
 </body>
