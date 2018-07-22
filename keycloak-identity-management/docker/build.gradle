@@ -1,17 +1,15 @@
-plugins {
-  id "com.avast.gradle.docker-compose" version "0.5.4"
-}
+apply plugin: 'com.avast.gradle.docker-compose'
 
-// fix windows paths, replace all "\\" with "/"
-def root = rootDir.absolutePath.replaceAll("\\\\", "/")
+// fix windows paths, replace all '\\' with '/'
+def root = rootDir.absolutePath.replaceAll('\\\\', '/')
 
-subprojects {
+subprojects { sp ->
   dockerCompose {
-    useComposeFiles = ["$root/docker/$project.name/docker-compose.yml"]
+    useComposeFiles = ["$root/docker/$sp.name/docker-compose.yml"]
     captureContainersOutput = true
     stopContainers = true
     removeContainers = true
-    removeImages = "Local"
+    removeImages = 'Local'
     removeVolumes = true
     removeOrphans = true
     projectName = "$project.name"

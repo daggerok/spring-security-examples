@@ -1,20 +1,25 @@
 buildscript {
   ext {
-    springBootVersion = "1.5.14.RELEASE"
+    lombokVersion = '1.16.20'
+    springBootVersion = '1.5.14.RELEASE'
   }
 }
 
 plugins {
-  id "java"
-  id "idea"
-  id "eclipse"
-  id "org.springframework.boot" version "1.5.14.RELEASE"
+  id 'java'
+  id 'idea'
+  id 'eclipse'
+  id 'io.franzbecker.gradle-lombok' version '1.14'
+  id 'org.springframework.boot' version '1.5.14.RELEASE'
+  id 'com.avast.gradle.docker-compose' version '0.6.13' apply false
 }
+
+lombok.version = project.lombokVersion
 
 springBoot.executable = true
 
-group = "daggerok"
-version = "0.0.1"
+group = 'daggerok'
+version = '0.0.1'
 sourceCompatibility = targetCompatibility = 1.8
 
 repositories {
@@ -22,25 +27,24 @@ repositories {
 }
 
 dependencies {
-  compileOnly("org.projectlombok:lombok")
-  compile("org.springframework.boot:spring-boot-starter-mustache")
-  compile("org.springframework.boot:spring-boot-starter-security")
-  compile("org.springframework.boot:spring-boot-starter-validation")
-  compile("org.springframework.boot:spring-boot-starter-web")
-  compile("org.webjars:webjars-locator:0.32-1")
-  compile("org.webjars.npm:jquery:3.2.1")
-  compile("org.webjars.npm:tether:1.4.0")
-  compile("org.webjars.npm:bootstrap:4.0.0-alpha.6")
-  compile("org.webjars.npm:bootswatch:4.0.0-alpha.6")
-  compile("org.webjars.npm:whatwg-fetch:2.0.3")
-  compile("org.webjars.npm:types__whatwg-fetch:0.0.33")
-  compile("io.vavr:vavr:0.9.1")
-  runtime("org.springframework.boot:spring-boot-devtools")
-  testCompile("org.springframework.boot:spring-boot-starter-test")
-  testCompile("org.springframework.security:spring-security-test")
+  compile('org.springframework.boot:spring-boot-starter-mustache')
+  compile('org.springframework.boot:spring-boot-starter-security')
+  compile('org.springframework.boot:spring-boot-starter-validation')
+  compile('org.springframework.boot:spring-boot-starter-web')
+  compile('org.webjars:webjars-locator:0.32-1')
+  compile('org.webjars.npm:jquery:3.2.1')
+  compile('org.webjars.npm:tether:1.4.0')
+  compile('org.webjars.npm:bootstrap:4.0.0-alpha.6')
+  compile('org.webjars.npm:bootswatch:4.0.0-alpha.6')
+  compile('org.webjars.npm:whatwg-fetch:2.0.3')
+  compile('org.webjars.npm:types__whatwg-fetch:0.0.33')
+  compile('io.vavr:vavr:0.9.2')
+  runtime('org.springframework.boot:spring-boot-devtools')
+  testCompile('org.springframework.boot:spring-boot-starter-test')
+  testCompile('org.springframework.security:spring-security-test')
 }
 
 wrapper {
-  gradleVersion = "4.3.1"
-  distributionType = "ALL"
+  gradleVersion = '4.9'
+  distributionType = 'BIN'
 }

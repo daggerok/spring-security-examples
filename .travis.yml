@@ -27,7 +27,6 @@ before_install:
 - stop_any 5432 5672 27017 8080 80
 
 script:
-- bash gradlew clean build asciidoctor >/dev/null
 - export root=$(pwd)
 #
 - cp -Rf ${root}/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/application-oauth2-default.yaml ${root}/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/application-oauth2.yaml
@@ -66,12 +65,11 @@ script:
   done
 #
 - >
-  for path in \
+  for project in \
     keycloak-identity-management \
     csrf-protection-spa ;
   do
-    export TARGET="$root/$path"
-    cd $TARGET
+    cd ${root}/${project}
     bash gradlew clean assemble >/dev/null
     bash gradlew composeUp >/dev/null
     bash gradlew composeDown
