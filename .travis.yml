@@ -52,6 +52,19 @@ script:
 - stop_any 8080 80
 #
 - >
+  for project in \
+    web-mvc-security-testing-with-mock-user \
+  ; do
+    bash ${root}/${project}/mvnw -f ${root}/${project}/pom.xml
+    java -jar ${root}/${project}/target/*.jar &
+    wait_for 8080
+    http :8080/
+    http :8080/login
+    http -a usr:pwd :8080/
+    stop_any 8080 80
+  done
+#
+- >
   for path in \
     keycloak-identity-management \
     csrf-protection-spa ;

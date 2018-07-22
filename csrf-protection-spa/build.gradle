@@ -1,6 +1,6 @@
 buildscript {
   ext {
-    springBootVersion = "1.5.8.RELEASE"
+    springBootVersion = "1.5.14.RELEASE"
   }
 }
 
@@ -8,7 +8,7 @@ plugins {
   id "java"
   id "idea"
   id "eclipse"
-  id "org.springframework.boot" version "1.5.8.RELEASE"
+  id "org.springframework.boot" version "1.5.14.RELEASE"
 }
 
 springBoot.executable = true

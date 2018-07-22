@@ -25,6 +25,10 @@ include::../keycloak-identity-management/README.adoc[tags=content]
 == Spring 5 Security OAuth2 (Github / Facebook)
 include::../spring-5-security-oauth2/README.adoc[tags=content]
 
+== Others
+
+include::../web-mvc-security-testing-with-mock-user/README.adoc[]
+
 == links
 include::includes/Links.adoc[]
 

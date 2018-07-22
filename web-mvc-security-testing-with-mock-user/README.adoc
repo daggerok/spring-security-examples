@@ -1,0 +1,37 @@
+=== Web MVC: testing with mock user
+
+.security config
+[source,java]
+----
+include::./src/main/java/com/github/daggerok/WebMvcApplication.java[tags=security-config]
+----
+
+.application controller
+[source,java]
+----
+include::./src/main/java/com/github/daggerok/WebMvcApplication.java[tags=controller]
+----
+
+.index.page
+[source,java]
+----
+include::./src/main/resources/templates/index.html[]
+----
+
+.testing unauthorized access: application must redirect user to login page
+[source,java]
+----
+include::./src/test/java/com/github/daggerok/MockMvcSecurityTests.java[tags=unauthorized]
+----
+
+.testing login page: must be publicly accessible for non-authorized users
+[source,java]
+----
+include::./src/test/java/com/github/daggerok/MockMvcSecurityTests.java[tags=permit-all]
+----
+
+.testing authorized request
+[source,java]
+----
+include::./src/test/java/com/github/daggerok/MockMvcSecurityTests.java[tags=authorized]
+----
