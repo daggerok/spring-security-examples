@@ -542,7 +542,7 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.0.1,</span>
-<span id="revdate">2018-07-22 21:33:28 UTC</span>
+<span id="revdate">2018-07-22 21:51:27 UTC</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -873,11 +873,14 @@ http :8080/login</pre>
   <span class="annotation">@Override</span>
   <span class="annotation">@Autowired</span>
   <span class="directive">protected</span> <span class="type">void</span> configure(AuthenticationManagerBuilder auth) <span class="directive">throws</span> <span class="exception">Exception</span> {
-    auth
-        .inMemoryAuthentication()
-          .withUser(<span class="string"><span class="delimiter">&quot;</span><span class="content">usr</span><span class="delimiter">&quot;</span></span>)
-          .password(passwordEncoder().encode(<span class="string"><span class="delimiter">&quot;</span><span class="content">pwd</span><span class="delimiter">&quot;</span></span>))
-          .roles(<span class="string"><span class="delimiter">&quot;</span><span class="content">APP</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">APP_USER</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">APPLICATION_USER</span><span class="delimiter">&quot;</span></span>);
+    <span class="comment">//@formatter:off</span>
+    <span class="predefined-type">HashMap</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">usr</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">pwd</span><span class="delimiter">&quot;</span></span>)
+           .forEach((username, password) -&gt; Try.run(() -&gt; auth
+               .inMemoryAuthentication()
+                 .withUser(username)
+                 .password(passwordEncoder().encode(password))
+                 .roles(<span class="string"><span class="delimiter">&quot;</span><span class="content">APP</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">APP_USER</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">APPLICATION_USER</span><span class="delimiter">&quot;</span></span>)));
+    <span class="comment">//@formatter:on</span>
   }
 
   <span class="annotation">@Bean</span>
@@ -990,7 +993,7 @@ http :8080/login</pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1<br>
-Last updated 2018-07-22 21:33:28 UTC
+Last updated 2018-07-22 21:51:27 UTC
 </div>
 </div>
 </body>

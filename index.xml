@@ -4,7 +4,7 @@
 <book xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
 <info>
 <title>spring-security-examples spring-security-examples (0.0.1)</title>
-<date>2018-07-22 21:33:28 UTC</date>
+<date>2018-07-22 21:51:27 UTC</date>
 <author>
 <personname>
 <firstname>Maksim</firstname>
@@ -16,7 +16,7 @@
 <revhistory>
 <revision>
 <revnumber>0.0.1</revnumber>
-<date>2018-07-22 21:33:28 UTC</date>
+<date>2018-07-22 21:51:27 UTC</date>
 <authorinitials>MK</authorinitials>
 </revision>
 </revhistory>
@@ -287,11 +287,14 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   @Autowired
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth
-        .inMemoryAuthentication()
-          .withUser("usr")
-          .password(passwordEncoder().encode("pwd"))
-          .roles("APP", "APP_USER", "APPLICATION_USER");
+    //@formatter:off
+    HashMap.of("usr", "pwd")
+           .forEach((username, password) -&gt; Try.run(() -&gt; auth
+               .inMemoryAuthentication()
+                 .withUser(username)
+                 .password(passwordEncoder().encode(password))
+                 .roles("APP", "APP_USER", "APPLICATION_USER")));
+    //@formatter:on
   }
 
   @Bean
