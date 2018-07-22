@@ -64,7 +64,7 @@ public class MockMvcSecurityTests {
     mvc.perform(get("/"))
        .andExpect(status().isOk())
        .andExpect(content().contentType(parseMediaType("text/html;charset=UTF-8")))
-       .andExpect(content().string(containsString("<title>Index page</title>")))
+       .andExpect(content().string(containsString("<title>Index Page</title>")))
     ;
   }
   //end::authorized[]

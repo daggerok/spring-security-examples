@@ -1,0 +1,61 @@
+=== Web MVC: testing with web driver
+
+.security config
+[source,java]
+----
+include::./src/main/java/com/github/daggerok/WebMvcApplication.java[tags=security-config]
+----
+
+.application controller
+[source,java]
+----
+include::./src/main/java/com/github/daggerok/WebMvcApplication.java[tags=controller]
+----
+
+.index.html page
+[source,html]
+----
+include::./src/main/resources/templates/index.html[]
+----
+
+==== HtmlUnit
+
+.testing login page: must be publicly accessible for non-authorized users
+[source,java]
+----
+include::./src/test/java/com/github/daggerok/HtmlUnitWebDriverSecurityTests.java[tags=permit-all]
+----
+
+.testing login
+[source,java]
+----
+include::./src/test/java/com/github/daggerok/HtmlUnitWebDriverSecurityTests.java[tags=login]
+----
+
+==== Chrome using WebDrive
+
+.testing login page: must be publicly accessible for non-authorized users
+[source,java]
+----
+include::./src/test/java/com/github/daggerok/ChromeWebDriverSecurityTests.java[tags=permit-all]
+----
+
+.testing login
+[source,java]
+----
+include::./src/test/java/com/github/daggerok/ChromeWebDriverSecurityTests.java[tags=login]
+----
+
+==== Chrome using Selenide
+
+.testing login page: must be publicly accessible for non-authorized users
+[source,java]
+----
+include::./src/test/java/com/github/daggerok/ChromeWebDriverSecurityTests.java[tags=permit-all]
+----
+
+.testing login
+[source,java]
+----
+include::./src/test/java/com/github/daggerok/ChromeWebDriverSecurityTests.java[tags=login]
+----

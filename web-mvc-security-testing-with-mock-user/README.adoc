@@ -12,8 +12,8 @@ include::./src/main/java/com/github/daggerok/WebMvcApplication.java[tags=securit
 include::./src/main/java/com/github/daggerok/WebMvcApplication.java[tags=controller]
 ----
 
-.index.page
-[source,java]
+.index.html page
+[source,html]
 ----
 include::./src/main/resources/templates/index.html[]
 ----

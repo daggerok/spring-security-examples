@@ -53,6 +53,7 @@ script:
 #
 - >
   for project in \
+    web-driver-security-testing \
     web-mvc-security-testing-with-mock-user \
   ; do
     bash ${root}/${project}/mvnw -f ${root}/${project}/pom.xml

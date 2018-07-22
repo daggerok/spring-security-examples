@@ -1,4 +1,4 @@
-= spring-security-examples {root-project-name} ({project-version})
+= {root-project-name} ({project-version})
 Maksim Kostromin <daggerok@gmail.com>
 {docdatetime}
 :toc:
@@ -7,11 +7,11 @@ Maksim Kostromin <daggerok@gmail.com>
 :icons: font
 :toc: left
 :numbered:
-:github_branch_prefix: {github_url}/tree
+:github_branch_prefix: {github-url}/tree
 
 [discrete]
 
-ifdef::backend-html5[Travis CI build status: image:https://travis-ci.org/daggerok/{root-project-name}.svg?branch=master["Build Status", link={github_url}]]
+ifdef::backend-html5[Travis CI build status: image:https://travis-ci.org/daggerok/{root-project-name}.svg?branch=master["Build Status", link={github-url}]]
 
 == Introduction
 include::includes/Introduction.adoc[]
@@ -28,6 +28,7 @@ include::../spring-5-security-oauth2/README.adoc[tags=content]
 == Others
 
 include::../web-mvc-security-testing-with-mock-user/README.adoc[]
+include::../web-driver-security-testing/README.adoc[]
 
 == links
 include::includes/Links.adoc[]
