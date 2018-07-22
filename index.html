@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.6.1">
 <meta name="author" content="Maksim Kostromin">
-<title>spring-security-examples spring-security-examples (0.0.1)</title>
+<title>spring-security-examples (0.0.1)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -537,12 +537,12 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>spring-security-examples spring-security-examples (0.0.1)</h1>
+<h1>spring-security-examples (0.0.1)</h1>
 <div class="details">
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.0.1,</span>
-<span id="revdate">2018-07-22 21:51:27 UTC</span>
+<span id="revdate">2018-07-22 23:15:06 UTC</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -558,6 +558,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#others">5. Others</a>
 <ul class="sectlevel2">
 <li><a href="#web-mvc-testing-with-mock-user">5.1. Web MVC: testing with mock user</a></li>
+<li><a href="#web-mvc-testing-with-web-driver">5.2. Web MVC: testing with web driver</a></li>
 </ul>
 </li>
 <li><a href="#links">6. links</a></li>
@@ -569,7 +570,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Travis CI build status: <span class="image"><a class="image" href="{github_url}"><img src="https://travis-ci.org/daggerok/spring-security-examples.svg?branch=master" alt="Build Status"></a></span></p>
+<p>Travis CI build status: <span class="image"><a class="image" href="https://github.com/daggerok/spring-security-examples"><img src="https://travis-ci.org/daggerok/spring-security-examples.svg?branch=master" alt="Build Status"></a></span></p>
 </div>
 </div>
 </div>
@@ -897,19 +898,19 @@ http :8080/login</pre>
 </div>
 </div>
 <div class="listingblock">
-<div class="title">index.page</div>
+<div class="title">index.html page</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">&lt;!DOCTYPE html&gt;
-&lt;html lang=<span class="string"><span class="delimiter">&quot;</span><span class="content">en</span><span class="delimiter">&quot;</span></span> x&gt;
-&lt;head&gt;
-  &lt;meta charset=<span class="string"><span class="delimiter">&quot;</span><span class="content">UTF-8</span><span class="delimiter">&quot;</span></span>&gt;
-  &lt;title&gt;Index page&lt;/title&gt;
-  &lt;link rel=<span class="string"><span class="delimiter">&quot;</span><span class="content">shortcut icon</span><span class="delimiter">&quot;</span></span> th:href=<span class="error">@</span>{<span class="string"><span class="delimiter">&quot;</span><span class="content">favicon.ico</span><span class="delimiter">&quot;</span></span>} type=<span class="string"><span class="delimiter">&quot;</span><span class="content">image/x-icon</span><span class="delimiter">&quot;</span></span>&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;h1&gt;Hola!&lt;/h1&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
+<pre class="CodeRay highlight"><code data-lang="html"><span class="doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="attribute-name">lang</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">en</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">xmlns:th</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.thymeleaf.org</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attribute-name">charset</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">UTF-8</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+  <span class="tag">&lt;title&gt;</span>Index Page<span class="tag">&lt;/title&gt;</span>
+  <span class="tag">&lt;link</span> <span class="attribute-name">rel</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">shortcut icon</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">th:href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">@{/favicon.ico}</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">image/x-icon</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+<span class="tag">&lt;h1&gt;</span>Hola!<span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -963,9 +964,259 @@ http :8080/login</pre>
     mvc.perform(get(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>))
        .andExpect(status().isOk())
        .andExpect(content().contentType(parseMediaType(<span class="string"><span class="delimiter">&quot;</span><span class="content">text/html;charset=UTF-8</span><span class="delimiter">&quot;</span></span>)))
-       .andExpect(content().string(containsString(<span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;title&gt;Index page&lt;/title&gt;</span><span class="delimiter">&quot;</span></span>)))
+       .andExpect(content().string(containsString(<span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;title&gt;Index Page&lt;/title&gt;</span><span class="delimiter">&quot;</span></span>)))
     ;
   }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="web-mvc-testing-with-web-driver"><a class="anchor" href="#web-mvc-testing-with-web-driver"></a>5.2. Web MVC: testing with web driver</h3>
+<div class="listingblock">
+<div class="title">security config</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Log4j2</span>
+<span class="annotation">@Configuration</span>
+<span class="annotation">@EnableWebSecurity</span>
+<span class="annotation">@EnableGlobalMethodSecurity</span>(prePostEnabled = <span class="predefined-constant">true</span>)
+<span class="type">class</span> <span class="class">SecurityConfig</span> <span class="directive">extends</span> WebSecurityConfigurerAdapter {
+
+  <span class="annotation">@Override</span>
+  <span class="directive">protected</span> <span class="type">void</span> configure(HttpSecurity http) <span class="directive">throws</span> <span class="exception">Exception</span> {
+    <span class="comment">//@formatter:off</span>
+    http
+        .authorizeRequests()
+          .antMatchers(<span class="string"><span class="delimiter">&quot;</span><span class="content">/login</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">/webjars</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">/favicon.*</span><span class="delimiter">&quot;</span></span>)
+            .permitAll()
+          .anyRequest()
+            .fullyAuthenticated()
+          .and()
+        .formLogin()
+          .defaultSuccessUrl(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>)
+          .failureUrl(<span class="string"><span class="delimiter">&quot;</span><span class="content">/login?error</span><span class="delimiter">&quot;</span></span>)
+          .failureForwardUrl(<span class="string"><span class="delimiter">&quot;</span><span class="content">/login?failure</span><span class="delimiter">&quot;</span></span>)
+          .and()
+        .logout()
+          .clearAuthentication(<span class="predefined-constant">true</span>)
+          .invalidateHttpSession(<span class="predefined-constant">true</span>)
+          .deleteCookies(<span class="string"><span class="delimiter">&quot;</span><span class="content">JSESSIONID</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">PLAY_SESSION</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">NXSESSIONID</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">csrfToken</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">SESSION</span><span class="delimiter">&quot;</span></span>)
+          .permitAll(<span class="predefined-constant">true</span>)
+    ;
+    <span class="comment">//@formatter:on</span>
+  }
+
+  <span class="annotation">@Override</span>
+  <span class="annotation">@Autowired</span>
+  <span class="directive">protected</span> <span class="type">void</span> configure(AuthenticationManagerBuilder auth) <span class="directive">throws</span> <span class="exception">Exception</span> {
+    <span class="comment">//@formatter:off</span>
+    <span class="predefined-type">HashMap</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">usr</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">pwd</span><span class="delimiter">&quot;</span></span>)
+           .forEach((username, password) -&gt; Try.run(() -&gt; auth
+               .inMemoryAuthentication()
+                 .withUser(username)
+                 .password(passwordEncoder().encode(password))
+                 .roles(<span class="string"><span class="delimiter">&quot;</span><span class="content">APP</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">APP_USER</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">APPLICATION_USER</span><span class="delimiter">&quot;</span></span>)));
+    <span class="comment">//@formatter:on</span>
+  }
+
+  <span class="annotation">@Bean</span>
+  PasswordEncoder passwordEncoder() {
+    <span class="keyword">return</span> PasswordEncoderFactories.createDelegatingPasswordEncoder();
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">application controller</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">index.html page</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html"><span class="doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="attribute-name">lang</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">en</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">xmlns:th</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.thymeleaf.org</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attribute-name">charset</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">UTF-8</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+  <span class="tag">&lt;title&gt;</span>Index Page<span class="tag">&lt;/title&gt;</span>
+  <span class="tag">&lt;link</span> <span class="attribute-name">rel</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">shortcut icon</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">th:href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">@{/favicon.ico}</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">image/x-icon</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+  <span class="tag">&lt;h1&gt;</span>Hola!<span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="htmlunit"><a class="anchor" href="#htmlunit"></a>5.2.1. HtmlUnit</h4>
+<div class="listingblock">
+<div class="title">testing login page: must be publicly accessible for non-authorized users</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@RunWith</span>(SpringRunner.class)
+<span class="annotation">@SpringBootTest</span>(webEnvironment = RANDOM_PORT)
+<span class="directive">public</span> <span class="type">class</span> <span class="class">HtmlUnitWebDriverSecurityTests</span> {
+
+  <span class="annotation">@Autowired</span>
+  Environment env;
+
+  <span class="directive">private</span> HtmlUnitDriver driver;
+
+  <span class="annotation">@Before</span>
+  <span class="directive">public</span> <span class="type">void</span> setUp() <span class="directive">throws</span> <span class="exception">Exception</span> {
+    <span class="local-variable">this</span>.driver = <span class="keyword">new</span> LocalHostWebConnectionHtmlUnitDriver(env);
+  }
+
+  <span class="annotation">@Test</span>
+  <span class="annotation">@SneakyThrows</span>
+  <span class="directive">public</span> <span class="type">void</span> login_page_is_publicly_accessible() {
+    driver.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>);
+    assertThat(driver.getTitle()).contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">Login Page</span><span class="delimiter">&quot;</span></span>);
+  }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">testing login</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">  <span class="annotation">@Test</span>
+  <span class="annotation">@SneakyThrows</span>
+  <span class="directive">public</span> <span class="type">void</span> login_test() {
+
+    driver.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>);
+
+    <span class="directive">final</span> WebElement form = driver.findElementByTagName(<span class="string"><span class="delimiter">&quot;</span><span class="content">form</span><span class="delimiter">&quot;</span></span>);
+
+    form.findElement(By.cssSelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">input[name=username]</span><span class="delimiter">&quot;</span></span>))
+        .sendKeys(<span class="string"><span class="delimiter">&quot;</span><span class="content">usr</span><span class="delimiter">&quot;</span></span>);
+    form.findElement(By.cssSelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">input[name=password]</span><span class="delimiter">&quot;</span></span>))
+        .sendKeys(<span class="string"><span class="delimiter">&quot;</span><span class="content">pwd</span><span class="delimiter">&quot;</span></span>);
+    form.submit();
+
+    assertThat(driver.getTitle()).contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">Index Page</span><span class="delimiter">&quot;</span></span>);
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="chrome-using-webdrive"><a class="anchor" href="#chrome-using-webdrive"></a>5.2.2. Chrome using WebDrive</h4>
+<div class="listingblock">
+<div class="title">testing login page: must be publicly accessible for non-authorized users</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@RunWith</span>(SpringRunner.class)
+<span class="annotation">@SpringBootTest</span>(webEnvironment = RANDOM_PORT)
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ChromeWebDriverSecurityTests</span> {
+
+  <span class="annotation">@LocalServerPort</span>
+  <span class="type">int</span> port;
+
+  <span class="directive">private</span> ChromeDriver driver;
+  <span class="directive">private</span> <span class="predefined-type">String</span> baseUrl;
+
+  <span class="annotation">@Before</span>
+  <span class="directive">public</span> <span class="type">void</span> setUp() <span class="directive">throws</span> <span class="exception">Exception</span> {
+    <span class="directive">final</span> <span class="type">boolean</span> headless = <span class="predefined-constant">false</span>;
+    <span class="predefined-type">System</span>.setProperty(<span class="string"><span class="delimiter">&quot;</span><span class="content">webdriver.chrome.driver</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/chromedriver</span><span class="delimiter">&quot;</span></span>);
+    <span class="local-variable">this</span>.driver = <span class="keyword">new</span> ChromeDriver(<span class="keyword">new</span> ChromeOptions().setHeadless(headless));
+    <span class="local-variable">this</span>.baseUrl = format(<span class="string"><span class="delimiter">&quot;</span><span class="content">http://127.0.0.1:%d</span><span class="delimiter">&quot;</span></span>, port);
+  }
+
+  <span class="directive">public</span> <span class="type">void</span> open(<span class="directive">final</span> <span class="predefined-type">String</span> uri) {
+    <span class="directive">final</span> <span class="type">boolean</span> isValidUri = <span class="predefined-constant">null</span> != uri &amp;&amp; uri.startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>);
+    <span class="directive">final</span> <span class="predefined-type">String</span> path = isValidUri ? uri : <span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span> + uri;
+    driver.get(baseUrl + path);
+  }
+
+  <span class="annotation">@Test</span>
+  <span class="annotation">@SneakyThrows</span>
+  <span class="directive">public</span> <span class="type">void</span> login_page_is_publicly_accessible() {
+    open(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>);
+    assertThat(driver.getTitle()).contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">Login Page</span><span class="delimiter">&quot;</span></span>);
+  }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">testing login</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">  <span class="annotation">@Test</span>
+  <span class="annotation">@SneakyThrows</span>
+  <span class="directive">public</span> <span class="type">void</span> login_test() {
+
+    open(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>);
+    assertThat(driver.getTitle()).contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">Login Page</span><span class="delimiter">&quot;</span></span>);
+
+    <span class="directive">final</span> WebElement form = driver.findElementByTagName(<span class="string"><span class="delimiter">&quot;</span><span class="content">form</span><span class="delimiter">&quot;</span></span>);
+
+    form.findElement(By.cssSelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">input[name=username]</span><span class="delimiter">&quot;</span></span>))
+        .sendKeys(<span class="string"><span class="delimiter">&quot;</span><span class="content">usr</span><span class="delimiter">&quot;</span></span>);
+    form.findElement(By.cssSelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">input[name=password]</span><span class="delimiter">&quot;</span></span>))
+        .sendKeys(<span class="string"><span class="delimiter">&quot;</span><span class="content">pwd</span><span class="delimiter">&quot;</span></span>);
+    form.submit();
+
+    assertThat(driver.getTitle()).contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">Index Page</span><span class="delimiter">&quot;</span></span>);
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="chrome-using-selenide"><a class="anchor" href="#chrome-using-selenide"></a>5.2.3. Chrome using Selenide</h4>
+<div class="listingblock">
+<div class="title">testing login page: must be publicly accessible for non-authorized users</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@RunWith</span>(SpringRunner.class)
+<span class="annotation">@SpringBootTest</span>(webEnvironment = RANDOM_PORT)
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ChromeWebDriverSecurityTests</span> {
+
+  <span class="annotation">@LocalServerPort</span>
+  <span class="type">int</span> port;
+
+  <span class="directive">private</span> ChromeDriver driver;
+  <span class="directive">private</span> <span class="predefined-type">String</span> baseUrl;
+
+  <span class="annotation">@Before</span>
+  <span class="directive">public</span> <span class="type">void</span> setUp() <span class="directive">throws</span> <span class="exception">Exception</span> {
+    <span class="directive">final</span> <span class="type">boolean</span> headless = <span class="predefined-constant">false</span>;
+    <span class="predefined-type">System</span>.setProperty(<span class="string"><span class="delimiter">&quot;</span><span class="content">webdriver.chrome.driver</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">/path/to/chromedriver</span><span class="delimiter">&quot;</span></span>);
+    <span class="local-variable">this</span>.driver = <span class="keyword">new</span> ChromeDriver(<span class="keyword">new</span> ChromeOptions().setHeadless(headless));
+    <span class="local-variable">this</span>.baseUrl = format(<span class="string"><span class="delimiter">&quot;</span><span class="content">http://127.0.0.1:%d</span><span class="delimiter">&quot;</span></span>, port);
+  }
+
+  <span class="directive">public</span> <span class="type">void</span> open(<span class="directive">final</span> <span class="predefined-type">String</span> uri) {
+    <span class="directive">final</span> <span class="type">boolean</span> isValidUri = <span class="predefined-constant">null</span> != uri &amp;&amp; uri.startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>);
+    <span class="directive">final</span> <span class="predefined-type">String</span> path = isValidUri ? uri : <span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span> + uri;
+    driver.get(baseUrl + path);
+  }
+
+  <span class="annotation">@Test</span>
+  <span class="annotation">@SneakyThrows</span>
+  <span class="directive">public</span> <span class="type">void</span> login_page_is_publicly_accessible() {
+    open(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>);
+    assertThat(driver.getTitle()).contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">Login Page</span><span class="delimiter">&quot;</span></span>);
+  }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">testing login</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">  <span class="annotation">@Test</span>
+  <span class="annotation">@SneakyThrows</span>
+  <span class="directive">public</span> <span class="type">void</span> login_test() {
+
+    open(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>);
+    assertThat(driver.getTitle()).contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">Login Page</span><span class="delimiter">&quot;</span></span>);
+
+    <span class="directive">final</span> WebElement form = driver.findElementByTagName(<span class="string"><span class="delimiter">&quot;</span><span class="content">form</span><span class="delimiter">&quot;</span></span>);
+
+    form.findElement(By.cssSelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">input[name=username]</span><span class="delimiter">&quot;</span></span>))
+        .sendKeys(<span class="string"><span class="delimiter">&quot;</span><span class="content">usr</span><span class="delimiter">&quot;</span></span>);
+    form.findElement(By.cssSelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">input[name=password]</span><span class="delimiter">&quot;</span></span>))
+        .sendKeys(<span class="string"><span class="delimiter">&quot;</span><span class="content">pwd</span><span class="delimiter">&quot;</span></span>);
+    form.submit();
+
+    assertThat(driver.getTitle()).contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">Index Page</span><span class="delimiter">&quot;</span></span>);
+  }
+}</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -993,7 +1244,7 @@ http :8080/login</pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1<br>
-Last updated 2018-07-22 21:51:27 UTC
+Last updated 2018-07-22 23:15:06 UTC
 </div>
 </div>
 </body>

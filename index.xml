@@ -3,8 +3,8 @@
 <?asciidoc-numbered?>
 <book xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
 <info>
-<title>spring-security-examples spring-security-examples (0.0.1)</title>
-<date>2018-07-22 21:51:27 UTC</date>
+<title>spring-security-examples (0.0.1)</title>
+<date>2018-07-22 23:15:06 UTC</date>
 <author>
 <personname>
 <firstname>Maksim</firstname>
@@ -16,7 +16,7 @@
 <revhistory>
 <revision>
 <revnumber>0.0.1</revnumber>
-<date>2018-07-22 21:51:27 UTC</date>
+<date>2018-07-22 23:15:06 UTC</date>
 <authorinitials>MK</authorinitials>
 </revision>
 </revhistory>
@@ -311,17 +311,17 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 </para>
 </formalpara>
 <formalpara>
-<title>index.page</title>
+<title>index.html page</title>
 <para>
-<programlisting language="java" linenumbering="unnumbered">&lt;!DOCTYPE html&gt;
-&lt;html lang="en" x&gt;
+<programlisting language="html" linenumbering="unnumbered">&lt;!DOCTYPE html&gt;
+&lt;html lang="en" xmlns:th="http://www.thymeleaf.org"&gt;
 &lt;head&gt;
   &lt;meta charset="UTF-8"&gt;
-  &lt;title&gt;Index page&lt;/title&gt;
-  &lt;link rel="shortcut icon" th:href=@{"favicon.ico"} type="image/x-icon"&gt;
+  &lt;title&gt;Index Page&lt;/title&gt;
+  &lt;link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon"&gt;
 &lt;/head&gt;
 &lt;body&gt;
-  &lt;h1&gt;Hola!&lt;/h1&gt;
+&lt;h1&gt;Hola!&lt;/h1&gt;
 &lt;/body&gt;
 &lt;/html&gt;</programlisting>
 </para>
@@ -377,11 +377,261 @@ public class MockMvcSecurityTests {
     mvc.perform(get("/"))
        .andExpect(status().isOk())
        .andExpect(content().contentType(parseMediaType("text/html;charset=UTF-8")))
-       .andExpect(content().string(containsString("&lt;title&gt;Index page&lt;/title&gt;")))
+       .andExpect(content().string(containsString("&lt;title&gt;Index Page&lt;/title&gt;")))
     ;
   }</programlisting>
 </para>
 </formalpara>
+</section>
+<section xml:id="web-mvc-testing-with-web-driver">
+<title>Web MVC: testing with web driver</title>
+<formalpara>
+<title>security config</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">@Log4j2
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    //@formatter:off
+    http
+        .authorizeRequests()
+          .antMatchers("/login", "/webjars", "/favicon.*")
+            .permitAll()
+          .anyRequest()
+            .fullyAuthenticated()
+          .and()
+        .formLogin()
+          .defaultSuccessUrl("/")
+          .failureUrl("/login?error")
+          .failureForwardUrl("/login?failure")
+          .and()
+        .logout()
+          .clearAuthentication(true)
+          .invalidateHttpSession(true)
+          .deleteCookies("JSESSIONID", "PLAY_SESSION", "NXSESSIONID", "csrfToken", "SESSION")
+          .permitAll(true)
+    ;
+    //@formatter:on
+  }
+
+  @Override
+  @Autowired
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    //@formatter:off
+    HashMap.of("usr", "pwd")
+           .forEach((username, password) -&gt; Try.run(() -&gt; auth
+               .inMemoryAuthentication()
+                 .withUser(username)
+                 .password(passwordEncoder().encode(password))
+                 .roles("APP", "APP_USER", "APPLICATION_USER")));
+    //@formatter:on
+  }
+
+  @Bean
+  PasswordEncoder passwordEncoder() {
+    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+  }
+}</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>application controller</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered"></programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>index.html page</title>
+<para>
+<programlisting language="html" linenumbering="unnumbered">&lt;!DOCTYPE html&gt;
+&lt;html lang="en" xmlns:th="http://www.thymeleaf.org"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Index Page&lt;/title&gt;
+  &lt;link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Hola!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+</para>
+</formalpara>
+<section xml:id="htmlunit">
+<title>HtmlUnit</title>
+<formalpara>
+<title>testing login page: must be publicly accessible for non-authorized users</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = RANDOM_PORT)
+public class HtmlUnitWebDriverSecurityTests {
+
+  @Autowired
+  Environment env;
+
+  private HtmlUnitDriver driver;
+
+  @Before
+  public void setUp() throws Exception {
+    this.driver = new LocalHostWebConnectionHtmlUnitDriver(env);
+  }
+
+  @Test
+  @SneakyThrows
+  public void login_page_is_publicly_accessible() {
+    driver.get("/");
+    assertThat(driver.getTitle()).contains("Login Page");
+  }</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>testing login</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">  @Test
+  @SneakyThrows
+  public void login_test() {
+
+    driver.get("/");
+
+    final WebElement form = driver.findElementByTagName("form");
+
+    form.findElement(By.cssSelector("input[name=username]"))
+        .sendKeys("usr");
+    form.findElement(By.cssSelector("input[name=password]"))
+        .sendKeys("pwd");
+    form.submit();
+
+    assertThat(driver.getTitle()).contains("Index Page");
+  }
+}</programlisting>
+</para>
+</formalpara>
+</section>
+<section xml:id="chrome-using-webdrive">
+<title>Chrome using WebDrive</title>
+<formalpara>
+<title>testing login page: must be publicly accessible for non-authorized users</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = RANDOM_PORT)
+public class ChromeWebDriverSecurityTests {
+
+  @LocalServerPort
+  int port;
+
+  private ChromeDriver driver;
+  private String baseUrl;
+
+  @Before
+  public void setUp() throws Exception {
+    final boolean headless = false;
+    System.setProperty("webdriver.chrome.driver", "/path/to/chromedriver");
+    this.driver = new ChromeDriver(new ChromeOptions().setHeadless(headless));
+    this.baseUrl = format("http://127.0.0.1:%d", port);
+  }
+
+  public void open(final String uri) {
+    final boolean isValidUri = null != uri &amp;&amp; uri.startsWith("/");
+    final String path = isValidUri ? uri : "/" + uri;
+    driver.get(baseUrl + path);
+  }
+
+  @Test
+  @SneakyThrows
+  public void login_page_is_publicly_accessible() {
+    open("/");
+    assertThat(driver.getTitle()).contains("Login Page");
+  }</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>testing login</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">  @Test
+  @SneakyThrows
+  public void login_test() {
+
+    open("/");
+    assertThat(driver.getTitle()).contains("Login Page");
+
+    final WebElement form = driver.findElementByTagName("form");
+
+    form.findElement(By.cssSelector("input[name=username]"))
+        .sendKeys("usr");
+    form.findElement(By.cssSelector("input[name=password]"))
+        .sendKeys("pwd");
+    form.submit();
+
+    assertThat(driver.getTitle()).contains("Index Page");
+  }
+}</programlisting>
+</para>
+</formalpara>
+</section>
+<section xml:id="chrome-using-selenide">
+<title>Chrome using Selenide</title>
+<formalpara>
+<title>testing login page: must be publicly accessible for non-authorized users</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = RANDOM_PORT)
+public class ChromeWebDriverSecurityTests {
+
+  @LocalServerPort
+  int port;
+
+  private ChromeDriver driver;
+  private String baseUrl;
+
+  @Before
+  public void setUp() throws Exception {
+    final boolean headless = false;
+    System.setProperty("webdriver.chrome.driver", "/path/to/chromedriver");
+    this.driver = new ChromeDriver(new ChromeOptions().setHeadless(headless));
+    this.baseUrl = format("http://127.0.0.1:%d", port);
+  }
+
+  public void open(final String uri) {
+    final boolean isValidUri = null != uri &amp;&amp; uri.startsWith("/");
+    final String path = isValidUri ? uri : "/" + uri;
+    driver.get(baseUrl + path);
+  }
+
+  @Test
+  @SneakyThrows
+  public void login_page_is_publicly_accessible() {
+    open("/");
+    assertThat(driver.getTitle()).contains("Login Page");
+  }</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>testing login</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">  @Test
+  @SneakyThrows
+  public void login_test() {
+
+    open("/");
+    assertThat(driver.getTitle()).contains("Login Page");
+
+    final WebElement form = driver.findElementByTagName("form");
+
+    form.findElement(By.cssSelector("input[name=username]"))
+        .sendKeys("usr");
+    form.findElement(By.cssSelector("input[name=password]"))
+        .sendKeys("pwd");
+    form.submit();
+
+    assertThat(driver.getTitle()).contains("Index Page");
+  }
+}</programlisting>
+</para>
+</formalpara>
+</section>
 </section>
 </chapter>
 <chapter xml:id="links">
