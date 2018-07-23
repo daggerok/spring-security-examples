@@ -61,6 +61,7 @@ script:
     http :8080/
     http :8080/login
     http -a usr:pwd :8080/
+    sleep 1
     stop_any 8080 80
   done
 #
