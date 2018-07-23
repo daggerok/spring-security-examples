@@ -40,7 +40,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
           .anyRequest()
             .fullyAuthenticated()
           .and()
-        //end::security-config[]
         .cors()
           .disable()
         .csrf()
@@ -53,13 +52,11 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
             .xssProtectionEnabled(true)
             .and()
           .and()
-        //tag::security-config[]
         .formLogin()
           .defaultSuccessUrl("/")
           .failureUrl("/login?error")
           .failureForwardUrl("/login?failure")
           .and()
-        //end::security-config[]
         .sessionManagement()
           .sessionCreationPolicy(IF_REQUIRED)
           .invalidSessionUrl("/login?invalidSession")
@@ -67,7 +64,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
           .sessionFixation()
             .migrateSession()
             .and()
-        //tag::security-config[]
         .logout()
           .clearAuthentication(true)
           .invalidateHttpSession(true)
