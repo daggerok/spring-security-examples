@@ -542,7 +542,7 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.0.1,</span>
-<span id="revdate">2018-07-23 00:53:03 UTC</span>
+<span id="revdate">2018-07-23 01:21:40 UTC</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -991,11 +991,30 @@ http :8080/login</pre>
           .anyRequest()
             .fullyAuthenticated()
           .and()
+        .cors()
+          .disable()
+        .csrf()
+          .csrfTokenRepository(<span class="keyword">new</span> LazyCsrfTokenRepository(<span class="keyword">new</span> HttpSessionCsrfTokenRepository()))
+          .and()
+        .headers()
+          .frameOptions()
+            .sameOrigin()
+          .xssProtection()
+            .xssProtectionEnabled(<span class="predefined-constant">true</span>)
+            .and()
+          .and()
         .formLogin()
           .defaultSuccessUrl(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>)
           .failureUrl(<span class="string"><span class="delimiter">&quot;</span><span class="content">/login?error</span><span class="delimiter">&quot;</span></span>)
           .failureForwardUrl(<span class="string"><span class="delimiter">&quot;</span><span class="content">/login?failure</span><span class="delimiter">&quot;</span></span>)
           .and()
+        .sessionManagement()
+          .sessionCreationPolicy(IF_REQUIRED)
+          .invalidSessionUrl(<span class="string"><span class="delimiter">&quot;</span><span class="content">/login?invalidSession</span><span class="delimiter">&quot;</span></span>)
+          .sessionAuthenticationErrorUrl(<span class="string"><span class="delimiter">&quot;</span><span class="content">/login?sessionAuthenticationError</span><span class="delimiter">&quot;</span></span>)
+          .sessionFixation()
+            .migrateSession()
+            .and()
         .logout()
           .clearAuthentication(<span class="predefined-constant">true</span>)
           .invalidateHttpSession(<span class="predefined-constant">true</span>)
@@ -1244,7 +1263,7 @@ http :8080/login</pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1<br>
-Last updated 2018-07-23 00:53:03 UTC
+Last updated 2018-07-23 01:21:40 UTC
 </div>
 </div>
 </body>
