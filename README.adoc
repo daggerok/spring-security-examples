@@ -10,6 +10,7 @@ This repository contains spring-security playgroung projects
 
 Other related repositories:
 
+- link:https://github.com/daggerok/spring-security-java-ee-microprofile[JavaEE Spring Security integration]
 - link:https://github.com/daggerok/oauth2-jdbc-example[Spring OAuth2 (JDBC token store) authorization server + resource server + client web app]
 - link:https://github.com/daggerok/csrf-spring-webflux-mustache/[Webflux, Reactive security, CSRF, etc..]
 - link:https://github.com/daggerok/secured-app[some sucured app]
