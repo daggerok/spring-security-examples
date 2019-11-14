@@ -1,109 +1,138 @@
-service:
-- docker
-
+notifications:
+  email: false
+git:
+  quiet: true
+  depth: false
 language: java
-jdk: oraclejdk8
-
+jdk: openjdk8
+node_js: lts/*
+python: 3.7
+matrix:
+  include:
+    - python: 3.7
+services:
+  - xvfb
+  - docker
 addons:
   apt:
-    update: true
+    update: false
     packages:
-    - google-chrome-stable
-    - docker-ce
-    - python-pip
-    - curl
-    - jq
-    - libxml2-utils
-    - libappindicator1
-    - fonts-liberation
-
+      - jq
+      - bash
+      - curl
+      - tree
+      - docker-ce
+      - libxml2-utils
+      - libappindicator1
+      - fonts-liberation
+      - google-chrome-stable
+      - python3-setuptools
+      - python3-pip
 install: true
 before_install:
-- export CHROME_BIN=/usr/bin/google-chrome
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
-- sudo pip install docker-compose httpie >/dev/null 2>&1
-- source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
-- stop_any 5432 5672 27017 8080 80
-
-script:
-- export root=$(pwd)
-#
-- cp -Rf ${root}/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/application-oauth2-default.yaml ${root}/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/application-oauth2.yaml
-- cp -Rf ${root}/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/application-oauth2-default.yaml ${root}/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/application-oauth2.yaml
-- cp -Rf ${root}/spring-5-security-oauth2/spring-mvc-github/src/main/resources/application-oauth2-default.yaml ${root}/spring-5-security-oauth2/spring-mvc-github/src/main/resources/application-oauth2.yaml
-#
-- bash ./gradlew -Pci -b ${root}/spring-5-security-oauth2/build.gradle >/dev/null
-#
-- java -jar ${root}/spring-5-security-oauth2/spring-mvc-facebook/build/libs/*.jar &
-- wait_for 8080
-- http :8080/login
-- stop_any 8080 80
-#
-- bash ${root}/spring-5-security-oauth2/spring-mvc-github/build/libs/*.jar &
-- wait_for 8080
-- http :8080/login
-- stop_any 8080 80
-#
-- bash ${root}/spring-5-security-oauth2/spring-mvc-facebook-github/build/libs/*.jar &
-- wait_for 8080
-- http :8080/login
-- stop_any 8080 80
-#
-- >
-  for project in \
-    web-driver-security-testing \
-    web-mvc-security-testing-with-mock-user \
-  ; do
-    bash ${root}/${project}/mvnw -f ${root}/${project}/pom.xml >/dev/null
-    java -jar ${root}/${project}/target/*.jar &
-    wait_for 8080
-    http :8080/
-    http :8080/login
-    http -a usr:pwd :8080/
-    sleep 1
-    stop_any 8080 80
-  done
-#
-- >
-  for project in \
-    keycloak-identity-management \
-    csrf-protection-spa ;
-  do
-    cd ${root}/${project}
-    bash gradlew clean assemble >/dev/null
-    bash gradlew composeUp >/dev/null
-    bash gradlew composeDown
-  done;
-
+  - export CHROME_BIN=/usr/bin/google-chrome
+  - export DISPLAY=:99.0
+  #
+  - if [ ! -f ${HOME}/.local/daggerok/bash-functions/master/main.bash ] ; then
+    mkdir -p ${HOME}/.local/daggerok/bash-functions/master ;
+    curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash > ${HOME}/.local/daggerok/bash-functions/master/main.bash ;
+    fi
+  - source ${HOME}/.local/daggerok/bash-functions/master/main.bash
+  - stop_any 80 5432 8080 6551
+  #
+  - export PATH=$HOME/.local/bin:$PATH
+  - pip3 install --user --upgrade pip
+  - pip install --user --upgrade httpie docker-compose
+env:
+  global:
+    - TERM=dumb
+jobs:
+  include:
+    - stage: test
+      name: spring-security-oauth2-jwt
+      jdk: openjdk11
+      script:
+        - cd $TRAVIS_BUILD_DIR/ && ./mvnw -f spring-security-oauth2-jwt
+    - stage: test
+      jdk: openjdk8
+      name: legacy
+      script:
+      - cp -Rf $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/application-oauth2-default.yaml $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/application-oauth2.yaml
+      - cp -Rf $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/application-oauth2-default.yaml $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/application-oauth2.yaml
+      - cp -Rf $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-github/src/main/resources/application-oauth2-default.yaml $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-github/src/main/resources/application-oauth2.yaml
+      #
+      - bash ./gradlew -Pci -b $TRAVIS_BUILD_DIR/spring-5-security-oauth2/build.gradle >/dev/null
+      #
+      - java -jar $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-facebook/build/libs/*.jar &
+      - wait_for 8080
+      - http :8080/login
+      - stop_any 8080 80
+      #
+      - bash $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-github/build/libs/*.jar &
+      - wait_for 8080
+      - http :8080/login
+      - stop_any 8080 80
+      #
+      - bash $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-facebook-github/build/libs/*.jar &
+      - wait_for 8080
+      - http :8080/login
+      - stop_any 8080 80
+      #
+      - >
+        for project in \
+          web-driver-security-testing \
+          web-mvc-security-testing-with-mock-user \
+        ; do
+          bash $TRAVIS_BUILD_DIR/${project}/mvnw -f $TRAVIS_BUILD_DIR/${project}/pom.xml >/dev/null
+          java -jar $TRAVIS_BUILD_DIR/${project}/target/*.jar &
+          wait_for 8080
+          http :8080/
+          http :8080/login
+          http -a usr:pwd :8080/
+          sleep 1
+          stop_any 8080 80
+        done
+      #
+      - >
+        for project in \
+          keycloak-identity-management \
+          csrf-protection-spa ;
+        do
+          cd $TRAVIS_BUILD_DIR/${project}
+          bash gradlew clean assemble >/dev/null
+          bash gradlew composeUp >/dev/null
+          bash gradlew composeDown
+        done;
+    - stage: deploy
+      jdk: openjdk8
+      name: GitHub Pages
+      env:
+        global:
+          - TERM=dumb
+          - secure: i/esKc15i8+lkbYltwysLRB9WGr3PxIIZrF+P5LLOyX2xlunxMpPEqhLoVagwfFZQ8E6EUzb2p6OOum1M5Cnd/l0fRHoUS9VcJtzfhqj1uZgWvBhJF8WgMv9US5Zpmnv3xE/Zzz5FdCsPZThs7N53Sy3xwYwGfAchEh1YnDDzvcLcEBOvAmMbGNrGthIbs9tF94cWtrzsIUH2Tel4WkA+IfWNXO+6omhUd+xNTk3TZgZfCU/hTPEv7Y79gr7DLmEQvwC+5a3zVwgHWiv3Rb/j7dUHU13EdJeIH4gsy/KkGKW9cUEv5ov4oKU3drHxqa+4/4PjSwlBMnsjE7J8KqVikR6HKL/0siuc/yjC2O66ddqheJf1K9ndPKhNAoMSGcPIGrPA76IOIQJyROBNX+MxXThTo+6gkwtfq+cqzbbCDmIojuyJPDIKvZb8XIXaVaMr6Ms93hMscRQynn92ArQ5BGRkCflr2ZOjerkO8b1jqyuBqJaljmOuBql7JIznCXdPkgQ3ZBM26l73oGbVGRT7u3uBxuOJuNi6cXq1gEI8N6MKnnEATzZYM8AOV3sWJrS34uw9jW/E6pJbw6uTj7d6ZmZ1mZhODMAjM36mGGV45c8WhG84Pkaye/ZKgIqXXb7+QMTp6X+1tqRHHPx8NdUVb88nWQtsLtWbFQVELLd0aw=
+      before_deploy:
+        - cd $TRAVIS_BUILD_DIR/
+        - ./gradlew --stop
+        - ./mvnw -Pdocs
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        # travis encrypt GITHUB_TOKEN=<your github repo token> --add
+        github-token: "$GITHUB_TOKEN"
+        keep-history: true
+        on:
+          branch: master
+        local-dir: target/generated-docs
+        target_branch: gh-pages
 before_cache:
 - sudo rm -rf $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
-- sudo rm -rf $HOME/.gradle/caches/*/fileHashes/fileHashes.lock
-- sudo rm -rf $HOME/.gradle/caches/modules-2/modules-2.lock
-
+  - for item in $(find ~/.gradle -name "*.lock") ;
+      do sudo rm -rf $item ;
+    done
 cache:
+  pip: true
+  packages: true
   directories:
   - $HOME/.m2
   - $HOME/.gradle
   - $HOME/.docker
-
-env:
-  global:
-  - TERM=dumb
-  - secure: i/esKc15i8+lkbYltwysLRB9WGr3PxIIZrF+P5LLOyX2xlunxMpPEqhLoVagwfFZQ8E6EUzb2p6OOum1M5Cnd/l0fRHoUS9VcJtzfhqj1uZgWvBhJF8WgMv9US5Zpmnv3xE/Zzz5FdCsPZThs7N53Sy3xwYwGfAchEh1YnDDzvcLcEBOvAmMbGNrGthIbs9tF94cWtrzsIUH2Tel4WkA+IfWNXO+6omhUd+xNTk3TZgZfCU/hTPEv7Y79gr7DLmEQvwC+5a3zVwgHWiv3Rb/j7dUHU13EdJeIH4gsy/KkGKW9cUEv5ov4oKU3drHxqa+4/4PjSwlBMnsjE7J8KqVikR6HKL/0siuc/yjC2O66ddqheJf1K9ndPKhNAoMSGcPIGrPA76IOIQJyROBNX+MxXThTo+6gkwtfq+cqzbbCDmIojuyJPDIKvZb8XIXaVaMr6Ms93hMscRQynn92ArQ5BGRkCflr2ZOjerkO8b1jqyuBqJaljmOuBql7JIznCXdPkgQ3ZBM26l73oGbVGRT7u3uBxuOJuNi6cXq1gEI8N6MKnnEATzZYM8AOV3sWJrS34uw9jW/E6pJbw6uTj7d6ZmZ1mZhODMAjM36mGGV45c8WhG84Pkaye/ZKgIqXXb7+QMTp6X+1tqRHHPx8NdUVb88nWQtsLtWbFQVELLd0aw=
-
-before_deploy:
-- cd ${root}/
-- ./gradlew --stop
-- ./mvnw -Pdocs
-
-deploy:
-  provider: pages
-  skip-cleanup: true
-  # travis encrypt GITHUB_TOKEN=<your github repo token> --add
-  github-token: "$GITHUB_TOKEN"
-  keep-history: true
-  on:
-    branch: master
-  local-dir: target/generated-docs
-  target_branch: gh-pages
