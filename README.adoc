@@ -2,6 +2,7 @@
 
 This repository contains spring-security playgroung projects
 
+- link:spring-security-oauth2-jwt/[Spring Security OAuth2 JWT steps and samples]
 - link:web-driver-security-testing/[Spring Web MVC Security testing using HtmUnit / Chrome WebDriver and also using Selenide]
 - link:web-mvc-security-testing-with-mock-user/[Spring Web MVC Security testing using @WithMockUser annotation]
 - link:spring-5-security-oauth2/[Spring 5 | Spring Security OAuth2 | Spring Boot 2 | Github | Facebook]
