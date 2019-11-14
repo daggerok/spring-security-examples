@@ -1,5 +1,16 @@
+---
 spring:
   profiles:
     include: >
       boot,
       fb
+---
+spring:
+  profiles:
+    active: boot
+  application:
+    name: step-1
+  output:
+    ansi:
+      enabled: always
+---
