@@ -133,7 +133,6 @@ jobs:
       name: GitHub Pages
       env:
         - TERM=dumb
-        #- secure: i/esKc15i8+lkbYltwysLRB9WGr3PxIIZrF+P5LLOyX2xlunxMpPEqhLoVagwfFZQ8E6EUzb2p6OOum1M5Cnd/l0fRHoUS9VcJtzfhqj1uZgWvBhJF8WgMv9US5Zpmnv3xE/Zzz5FdCsPZThs7N53Sy3xwYwGfAchEh1YnDDzvcLcEBOvAmMbGNrGthIbs9tF94cWtrzsIUH2Tel4WkA+IfWNXO+6omhUd+xNTk3TZgZfCU/hTPEv7Y79gr7DLmEQvwC+5a3zVwgHWiv3Rb/j7dUHU13EdJeIH4gsy/KkGKW9cUEv5ov4oKU3drHxqa+4/4PjSwlBMnsjE7J8KqVikR6HKL/0siuc/yjC2O66ddqheJf1K9ndPKhNAoMSGcPIGrPA76IOIQJyROBNX+MxXThTo+6gkwtfq+cqzbbCDmIojuyJPDIKvZb8XIXaVaMr6Ms93hMscRQynn92ArQ5BGRkCflr2ZOjerkO8b1jqyuBqJaljmOuBql7JIznCXdPkgQ3ZBM26l73oGbVGRT7u3uBxuOJuNi6cXq1gEI8N6MKnnEATzZYM8AOV3sWJrS34uw9jW/E6pJbw6uTj7d6ZmZ1mZhODMAjM36mGGV45c8WhG84Pkaye/ZKgIqXXb7+QMTp6X+1tqRHHPx8NdUVb88nWQtsLtWbFQVELLd0aw=
         - secure: "GrR/PL1J30gnVuxzVNB77gQiuQ8d0oKGCEA8SOj/I2+RxqoRcepSPQjNTdZzLOwJ/ZeiyoWTKaFIgqL8SvZlnEjLMgF8VL1Yb5dKLQNFBNcZhQWgvd91T155wGmqWFJU0ZUio5mKljlMmtOYyI3+sLb/kSnoAuqGmfHITo10zetOpePU+9x64TJOUEjBRcw82m+1biuWQiyj/0c1pZHjM98jF1TV9c6ck1xwKgp3TLeJA23/eEkmZgnocf8HlWLlMgRIMXeF6pDzU6zVb89/M+l1mCfRAswLPARBGZUGH31XJIK2xwztssQBC/MX4FhLnurzOz5B5nzuJguIIdSytrtq0X7s3TbhiAclylv1fC8P55s+oQywKZPTs3/SZrltqK+eEAySTEhoxoGE85NXWyiA3vt2tsqdUnDidEoNehbIWW8UdIM6DeDNdC4gTMnkIBUssI90vCA3dTNwarMrcfDAfIhkidhq0ysi/ey94I2ZJ+B68hFMuyWbaIykrZGLfRaknldfVdWee2AAZdPtq6IR15fhgR1PwImWEpNYQHpvszLlQ1JO6Rlm3E0VWqXd4MRFghklAjsh1suKYLy6+v9WTZfwhQBJo7cCTgb2wwnQdf992M4VqlRUiCiJmmSsFs4OjHQ2O4vc/uHPh7OO1eUAkiiVYfaAFTYOiu/HYak="
       before_deploy:
         - cd $TRAVIS_BUILD_DIR/
@@ -150,10 +149,8 @@ jobs:
         local-dir: target/generated-docs
         target_branch: gh-pages
 before_cache:
-  - sudo rm -rf $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
-    - for item in $(find ~/.gradle -name "*.lock") ;
-    do sudo rm -rf $item ;
-    done
+  - find ~/.gradle -name "fileHashes.bin" -print0 | xargs -0 rm -rfv '{}'
+  - for item in $(find ~/.gradle -name "*.lock") ; do rm -rfv $item ; done
 cache:
   pip: true
   packages: true
