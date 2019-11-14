@@ -155,6 +155,6 @@ cache:
   pip: true
   packages: true
   directories:
-    - $HOME/.m2
-    - $HOME/.gradle
-    - $HOME/.docker
+    - ~/.m2
+    - ~/.gradle
+    - ~/.docker
