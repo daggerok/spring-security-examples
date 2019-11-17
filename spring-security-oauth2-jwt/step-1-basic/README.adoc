@@ -4,35 +4,35 @@
 
 _pom.xml_
 
-[source: xml]
+[source, xml]
 ----
 include::./pom.xml[tags=content]
 ----
 
 _SecurityCfg.java_
 
-[source: java]
+[source, java]
 ----
 include::./src/main/java/com/example/SecurityCfg.java[tags=content]
 ----
 
 _RestTemplateCfg.java_
 
-[source: java]
+[source, java]
 ----
 include::./src/main/java/com/example/RestTemplateCfg.java[tags=content]
 ----
 
 _IndexPage.java_
 
-[source: java]
+[source, java]
 ----
 include::./src/main/java/com/example/IndexPage.java[tags=content]
 ----
 
 _index.html_
 
-[source: html]
+[source, html]
 ----
 include::./src/main/resources/templates/index.html[tags=content]
 ----
