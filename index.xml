@@ -4,7 +4,7 @@
 <book xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
 <info>
 <title>spring-security-examples (0.0.1)</title>
-<date>2019-11-17 13:24:19 UTC</date>
+<date>2019-11-17 13:35:42 UTC</date>
 <author>
 <personname>
 <firstname>Maksim</firstname>
@@ -16,7 +16,7 @@
 <revhistory>
 <revision>
 <revnumber>0.0.1</revnumber>
-<date>2019-11-17 13:24:19 UTC</date>
+<date>2019-11-17 13:35:42 UTC</date>
 <authorinitials>MK</authorinitials>
 </revision>
 </revhistory>
@@ -675,13 +675,21 @@ public class ChromeWebDriverSecurityTests {
 </chapter>
 <chapter xml:id="basic-security">
 <title>Basic security</title>
-<simpara><emphasis>pom.xml</emphasis></simpara>
-<screen>        &lt;dependency&gt;
+<simpara>Add needed dependencies fist:</simpara>
+<formalpara>
+<title>pom.xml</title>
+<para>
+<programlisting language="xml" linenumbering="unnumbered">        &lt;dependency&gt;
             &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
             &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;
-        &lt;/dependency&gt;</screen>
-<simpara><emphasis>SecurityCfg.java</emphasis></simpara>
-<screen>@Configuration
+        &lt;/dependency&gt;</programlisting>
+</para>
+</formalpara>
+<simpara>Implement simple in memory security:</simpara>
+<formalpara>
+<title>SecurityCfg.java</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">@Configuration
 public class SecurityCfg extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -698,9 +706,14 @@ public class SecurityCfg extends WebSecurityConfigurerAdapter {
                           .build())
         ;
     }
-}</screen>
-<simpara><emphasis>RestTemplateCfg.java</emphasis></simpara>
-<screen>@Configuration
+}</programlisting>
+</para>
+</formalpara>
+<simpara>Setup RestTemplate to use user basic authentication for remote calls:</simpara>
+<formalpara>
+<title>RestTemplateCfg.java</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">@Configuration
 public class RestTemplateCfg {
 
     @Bean
@@ -708,9 +721,15 @@ public class RestTemplateCfg {
         return new RestTemplateBuilder().basicAuthentication("user", "password")
                                         .build();
     }
-}</screen>
-<simpara><emphasis>IndexPage.java</emphasis></simpara>
-<screen>@Controller
+}</programlisting>
+</para>
+</formalpara>
+<simpara>Fetch remote data before rendering MVC template with Thymeleaf view engine
+by using configured rest template for basic authentication:</simpara>
+<formalpara>
+<title>IndexPage.java</title>
+<para>
+<programlisting language="java" linenumbering="unnumbered">@Controller
 @RequiredArgsConstructor
 public class IndexPage {
 
@@ -724,10 +743,16 @@ public class IndexPage {
              .addAttribute("ctx", SecurityContextHolder.getContext());
         return "index";
     }
-}</screen>
-<simpara><emphasis>index.html</emphasis></simpara>
-<screen>    &lt;p data-th-if="message != null"&gt;message: [[ ${message} ?: 'no message' ]]&lt;/p&gt;
-    &lt;pre data-th-if="ctx != null"&gt;ctx: [[ ${ctx} ?: 'no ctx' ]]&lt;/pre&gt;</screen>
+}</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>index.html</title>
+<para>
+<programlisting language="html" linenumbering="unnumbered">    &lt;p data-th-if="message != null"&gt;message: [[ ${message} ?: 'no message' ]]&lt;/p&gt;
+    &lt;pre data-th-if="ctx != null"&gt;ctx: [[ ${ctx} ?: 'no ctx' ]]&lt;/pre&gt;</programlisting>
+</para>
+</formalpara>
 </chapter>
 <chapter xml:id="links">
 <title>links</title>
