@@ -2,36 +2,40 @@
 
 //tag::content[]
 
-_pom.xml_
+Add needed dependencies fist:
 
+.pom.xml
 [source, xml]
 ----
 include::./pom.xml[tags=content]
 ----
 
-_SecurityCfg.java_
+Implement simple in memory security:
 
+.SecurityCfg.java
 [source, java]
 ----
 include::./src/main/java/com/example/SecurityCfg.java[tags=content]
 ----
 
-_RestTemplateCfg.java_
+Setup RestTemplate to use user basic authentication for remote calls:
 
+.RestTemplateCfg.java
 [source, java]
 ----
 include::./src/main/java/com/example/RestTemplateCfg.java[tags=content]
 ----
 
-_IndexPage.java_
+Fetch remote data before rendering MVC template with Thymeleaf view engine
+by using configured rest template for basic authentication:
 
+.IndexPage.java
 [source, java]
 ----
 include::./src/main/java/com/example/IndexPage.java[tags=content]
 ----
 
-_index.html_
-
+.index.html
 [source, html]
 ----
 include::./src/main/resources/templates/index.html[tags=content]
