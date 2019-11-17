@@ -18,7 +18,7 @@ include::./src/main/java/com/github/daggerok/WebMvcApplication.java[tags=control
 include::./src/main/resources/templates/index.html[]
 ----
 
-==== HtmlUnit
+==== HtmlUnit e2e testing
 
 .testing login page: must be publicly accessible for non-authorized users
 [source,java]
@@ -32,7 +32,7 @@ include::./src/test/java/com/github/daggerok/HtmlUnitWebDriverSecurityTests.java
 include::./src/test/java/com/github/daggerok/HtmlUnitWebDriverSecurityTests.java[tags=login]
 ----
 
-==== Chrome using WebDrive
+==== E2E testing in Chrome by using WebDriver
 
 .testing login page: must be publicly accessible for non-authorized users
 [source,java]
@@ -46,7 +46,7 @@ include::./src/test/java/com/github/daggerok/ChromeWebDriverSecurityTests.java[t
 include::./src/test/java/com/github/daggerok/ChromeWebDriverSecurityTests.java[tags=login]
 ----
 
-==== Chrome using Selenide
+==== E2E testing in Chrome by using Selenide
 
 .testing login page: must be publicly accessible for non-authorized users
 [source,java]

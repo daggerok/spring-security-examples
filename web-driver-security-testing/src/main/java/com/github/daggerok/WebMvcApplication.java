@@ -93,7 +93,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 }
 //end::security-config[]
 
-//end::controller[]
+//tag::controller[]
 @Controller
 class IndexPage {
 
