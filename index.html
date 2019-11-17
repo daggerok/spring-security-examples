@@ -542,7 +542,7 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.0.1,</span>
-<span id="revdate">2019-11-17 12:54:18 UTC</span>
+<span id="revdate">2019-11-17 13:18:30 UTC</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -561,8 +561,9 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#web-mvc-testing-with-web-driver">5.2. Web MVC: testing with web driver</a></li>
 </ul>
 </li>
-<li><a href="#links">6. links</a></li>
-<li><a href="#enjoy">7. Enjoy! :)</a></li>
+<li><a href="#basic-security">6. Basic security</a></li>
+<li><a href="#links">7. links</a></li>
+<li><a href="#enjoy">8. Enjoy! :)</a></li>
 </ul>
 </div>
 </div>
@@ -1242,7 +1243,95 @@ http :8080/login</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="links"><a class="anchor" href="#links"></a>6. links</h2>
+<h2 id="basic-security"><a class="anchor" href="#basic-security"></a>6. Basic security</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>pom.xml</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;
+        &lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>SecurityCfg.java</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>@Configuration
+public class SecurityCfg extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+            .withUser(User.withUsername("user")
+                          .password(passwordEncoder().encode("password"))
+                          .roles("USER")
+                          .build())
+        ;
+    }
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>RestTemplateCfg.java</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>@Configuration
+public class RestTemplateCfg {
+
+    @Bean
+    RestTemplate restTemplate() {
+        return new RestTemplateBuilder().basicAuthentication("user", "password")
+                                        .build();
+    }
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>IndexPage.java</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>@Controller
+@RequiredArgsConstructor
+public class IndexPage {
+
+    private final RestTemplate restTemplate;
+
+    @GetMapping({"", "/"})
+    String index(Model model) {
+        var response = restTemplate.getForEntity("http://127.0.0.1:8080/api/greeting", Map.class);
+        var map = response.getBody();
+        model.addAttribute("message", map.get("message"))
+             .addAttribute("ctx", SecurityContextHolder.getContext());
+        return "index";
+    }
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>index.html</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>    &lt;p data-th-if="message != null"&gt;message: [[ ${message} ?: 'no message' ]]&lt;/p&gt;
+    &lt;pre data-th-if="ctx != null"&gt;ctx: [[ ${ctx} ?: 'no ctx' ]]&lt;/pre&gt;</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="links"><a class="anchor" href="#links"></a>7. links</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -1254,7 +1343,7 @@ http :8080/login</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="enjoy"><a class="anchor" href="#enjoy"></a>7. Enjoy! :)</h2>
+<h2 id="enjoy"><a class="anchor" href="#enjoy"></a>8. Enjoy! :)</h2>
 <div class="sectionbody">
 
 </div>
@@ -1263,7 +1352,7 @@ http :8080/login</pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1<br>
-Last updated 2019-11-17 12:54:18 UTC
+Last updated 2019-11-17 13:18:30 UTC
 </div>
 </div>
 </body>

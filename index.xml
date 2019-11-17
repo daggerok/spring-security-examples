@@ -4,7 +4,7 @@
 <book xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
 <info>
 <title>spring-security-examples (0.0.1)</title>
-<date>2019-11-17 12:54:18 UTC</date>
+<date>2019-11-17 13:18:30 UTC</date>
 <author>
 <personname>
 <firstname>Maksim</firstname>
@@ -16,7 +16,7 @@
 <revhistory>
 <revision>
 <revnumber>0.0.1</revnumber>
-<date>2019-11-17 12:54:18 UTC</date>
+<date>2019-11-17 13:18:30 UTC</date>
 <authorinitials>MK</authorinitials>
 </revision>
 </revhistory>
@@ -652,6 +652,62 @@ public class ChromeWebDriverSecurityTests {
 </formalpara>
 </section>
 </section>
+</chapter>
+<chapter xml:id="basic-security">
+<title>Basic security</title>
+<simpara><emphasis>pom.xml</emphasis></simpara>
+<screen>        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;
+        &lt;/dependency&gt;</screen>
+<simpara><emphasis>SecurityCfg.java</emphasis></simpara>
+<screen>@Configuration
+public class SecurityCfg extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+            .withUser(User.withUsername("user")
+                          .password(passwordEncoder().encode("password"))
+                          .roles("USER")
+                          .build())
+        ;
+    }
+}</screen>
+<simpara><emphasis>RestTemplateCfg.java</emphasis></simpara>
+<screen>@Configuration
+public class RestTemplateCfg {
+
+    @Bean
+    RestTemplate restTemplate() {
+        return new RestTemplateBuilder().basicAuthentication("user", "password")
+                                        .build();
+    }
+}</screen>
+<simpara><emphasis>IndexPage.java</emphasis></simpara>
+<screen>@Controller
+@RequiredArgsConstructor
+public class IndexPage {
+
+    private final RestTemplate restTemplate;
+
+    @GetMapping({"", "/"})
+    String index(Model model) {
+        var response = restTemplate.getForEntity("http://127.0.0.1:8080/api/greeting", Map.class);
+        var map = response.getBody();
+        model.addAttribute("message", map.get("message"))
+             .addAttribute("ctx", SecurityContextHolder.getContext());
+        return "index";
+    }
+}</screen>
+<simpara><emphasis>index.html</emphasis></simpara>
+<screen>    &lt;p data-th-if="message != null"&gt;message: [[ ${message} ?: 'no message' ]]&lt;/p&gt;
+    &lt;pre data-th-if="ctx != null"&gt;ctx: [[ ${ctx} ?: 'no ctx' ]]&lt;/pre&gt;</screen>
 </chapter>
 <chapter xml:id="links">
 <title>links</title>
