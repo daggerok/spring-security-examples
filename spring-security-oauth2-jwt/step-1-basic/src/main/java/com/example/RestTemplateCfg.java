@@ -1,4 +1,4 @@
-package com.example.step1;
+package com.example;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;

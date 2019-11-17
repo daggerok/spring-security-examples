@@ -1,0 +1,15 @@
+---
+spring:
+  profiles:
+    include: >
+      boot
+---
+spring:
+  profiles:
+    active: boot
+  application:
+    name: step-0
+  output:
+    ansi:
+      enabled: always
+---

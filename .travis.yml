@@ -49,16 +49,26 @@ env:
 jobs:
   include:
     - stage: test
-      name: spring-security-oauth2-jwt
+      name: spring-security-oauth2-jwt step-1
       jdk: openjdk11
       before_script:
-        - cp -Rf $TRAVIS_BUILD_DIR/spring-security-oauth2-jwt/step-1/src/main/resources/disabled.application-fb.yaml $TRAVIS_BUILD_DIR/spring-security-oauth2-jwt/step-1/src/main/resources/application-fb.yaml
+        - cp -Rf $TRAVIS_BUILD_DIR/spring-security-oauth2-jwt/step-1-basic/src/main/resources/disabled.application-fb.yaml $TRAVIS_BUILD_DIR/spring-security-oauth2-jwt/step-1-basic/src/main/resources/application-fb.yaml
       script:
-        - cd $TRAVIS_BUILD_DIR/ && ./mvnw -f spring-security-oauth2-jwt
-        - java -jar $TRAVIS_BUILD_DIR/spring-security-oauth2-jwt/step-1/target/*.jar &
+        - cd $TRAVIS_BUILD_DIR/ && ./mvnw -f spring-security-oauth2-jwt/step-1-basic/
+        - java -jar $TRAVIS_BUILD_DIR/spring-security-oauth2-jwt/step-1-basic/target/*.jar &
         - wait_for 8080
         - http -a admin:admin :8080
         - http -a user:password :8080/api/greeting
+        - stop_any 80 8080
+    - stage: test
+      name: spring-security-oauth2-jwt step-0
+      jdk: openjdk11
+      script:
+        - cd $TRAVIS_BUILD_DIR/ && ./mvnw -f spring-security-oauth2-jwt/step-0
+        - java -jar $TRAVIS_BUILD_DIR/spring-security-oauth2-jwt/step-0/target/*.jar &
+        - wait_for 8080
+        - http :8080
+        - http :8080/api/greeting
         - stop_any 80 8080
     - stage: test
       jdk: openjdk8
