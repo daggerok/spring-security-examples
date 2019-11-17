@@ -58,7 +58,8 @@ jobs:
         - cd $TRAVIS_BUILD_DIR/ && ./mvnw -f spring-security-oauth2-jwt/step-2-fb-gh
         - java -jar $TRAVIS_BUILD_DIR/spring-security-oauth2-jwt/step-2-fb-gh/target/*.jar -Dspring.profiles.active=gh &
         - wait_for 8080
-        - echo ...
+        - http :8080
+        - http :8080/login
         - stop_any 80 8080
     - stage: test
       name: spring-security-oauth2-jwt step-1-basic
