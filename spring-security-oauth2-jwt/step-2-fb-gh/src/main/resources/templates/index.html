@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fb</title>
+</head>
+<body>
+    <p data-th-if="message != null">message: [[ ${message} ?: 'no message' ]]</p>
+    <pre data-th-if="ctx != null">ctx: [[ ${ctx} ?: 'no ctx' ]]</pre>
+    <pre data-th-if="user != null">user: [[ ${user} ?: 'no user' ]]</pre>
+</body>
+</html>

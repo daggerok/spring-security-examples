@@ -1,0 +1,20 @@
+---
+spring:
+  profiles:
+    #include: boot,fb
+    include: boot,gh
+---
+spring:
+  profiles:
+    active: boot
+  application:
+    name: step-2
+  output:
+    ansi:
+      enabled: always
+---
+logging:
+  level:
+    root: INFO
+    org.springframework.security: DEBUG
+---

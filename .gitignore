@@ -1,5 +1,13 @@
-!spring-security-oauth2-jwt/step-1/src/main/resources/disabled.application-fb.yaml
-spring-security-oauth2-jwt/step-1/src/main/resources/application-fb.yaml
+!spring-security-oauth2-jwt/*/src/main/resources/disabled.application-*.yaml
+spring-security-oauth2-jwt/*/src/main/resources/application-fb.yaml
+spring-security-oauth2-jwt/*/src/main/resources/application-gh.yaml
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+*.log*
 
 **/src/main/resources/application-oauth2.yaml
 target/
@@ -20,12 +28,6 @@ out/
 .project
 .settings
 .springBeans
-
-### IntelliJ IDEA ###
-.idea/
-*.iws
-*.iml
-*.ipr
 
 ### NetBeans ###
 nbproject/private/

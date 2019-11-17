@@ -1,0 +1,13 @@
+# cp -Rf ./step-2-fb-gh/src/main/resources/disabled.application-fb.yaml ./step-2-fb-gh/src/main/resources/application-fb.yaml
+---
+spring:
+  profiles:
+    active: fb
+  security:
+    oauth2:
+      client:
+        registration:
+          facebook:
+            client-id: xxxxxxxxxxxxxxxx
+            client-secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+---

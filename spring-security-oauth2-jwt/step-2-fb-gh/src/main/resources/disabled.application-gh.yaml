@@ -1,0 +1,13 @@
+# cp -Rf ./step-2-fb-gh/src/main/resources/disabled.application-gh.yaml ./step-2-fb-gh/src/main/resources/application-gh.yaml
+---
+spring:
+  profiles:
+    active: gh
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: xxxxxxxxxxxxxxxxxxxx
+            client-secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+---

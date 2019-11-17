@@ -13,6 +13,7 @@
     <modules>
         <module>step-0</module>
         <module>step-1-basic</module>
+        <module>step-2-fb-gh</module>
     </modules>
 
     <properties>
