@@ -4,7 +4,7 @@
 <book xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
 <info>
 <title>spring-security-examples (0.0.1)</title>
-<date>2019-11-17 13:18:30 UTC</date>
+<date>2019-11-17 13:24:19 UTC</date>
 <author>
 <personname>
 <firstname>Maksim</firstname>
@@ -16,7 +16,7 @@
 <revhistory>
 <revision>
 <revnumber>0.0.1</revnumber>
-<date>2019-11-17 13:18:30 UTC</date>
+<date>2019-11-17 13:24:19 UTC</date>
 <authorinitials>MK</authorinitials>
 </revision>
 </revhistory>
@@ -460,7 +460,27 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 <formalpara>
 <title>application controller</title>
 <para>
-<programlisting language="java" linenumbering="unnumbered"></programlisting>
+<programlisting language="java" linenumbering="unnumbered">@Controller
+class IndexPage {
+
+  // @GetMapping
+  // with get mapping here we're receiving an error like:
+  // POST method is not supported right after re-login
+  @RequestMapping({ "/", "/err", "/index" })
+  public String index() {
+    return "index";
+  }
+
+  @GetMapping("")
+  public String redirect() {
+    return "forward:/";
+  }
+
+  @RequestMapping({ "/logout", "/logout/**" })
+  public String logout() {
+    return "redirect:/login?logout";
+  }
+}</programlisting>
 </para>
 </formalpara>
 <formalpara>
@@ -479,8 +499,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 &lt;/html&gt;</programlisting>
 </para>
 </formalpara>
-<section xml:id="htmlunit">
-<title>HtmlUnit</title>
+<section xml:id="htmlunit-e2e-testing">
+<title>HtmlUnit e2e testing</title>
 <formalpara>
 <title>testing login page: must be publicly accessible for non-authorized users</title>
 <para>
@@ -529,8 +549,8 @@ public class HtmlUnitWebDriverSecurityTests {
 </para>
 </formalpara>
 </section>
-<section xml:id="chrome-using-webdrive">
-<title>Chrome using WebDrive</title>
+<section xml:id="e2e-testing-in-chrome-by-using-webdriver">
+<title>E2E testing in Chrome by using WebDriver</title>
 <formalpara>
 <title>testing login page: must be publicly accessible for non-authorized users</title>
 <para>
@@ -590,8 +610,8 @@ public class ChromeWebDriverSecurityTests {
 </para>
 </formalpara>
 </section>
-<section xml:id="chrome-using-selenide">
-<title>Chrome using Selenide</title>
+<section xml:id="e2e-testing-in-chrome-by-using-selenide">
+<title>E2E testing in Chrome by using Selenide</title>
 <formalpara>
 <title>testing login page: must be publicly accessible for non-authorized users</title>
 <para>

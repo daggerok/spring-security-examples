@@ -542,7 +542,7 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.0.1,</span>
-<span id="revdate">2019-11-17 13:18:30 UTC</span>
+<span id="revdate">2019-11-17 13:24:19 UTC</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1048,7 +1048,27 @@ http :8080/login</pre>
 <div class="listingblock">
 <div class="title">application controller</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Controller</span>
+<span class="type">class</span> <span class="class">IndexPage</span> {
+
+  <span class="comment">// @GetMapping</span>
+  <span class="comment">// with get mapping here we're receiving an error like:</span>
+  <span class="comment">// POST method is not supported right after re-login</span>
+  <span class="annotation">@RequestMapping</span>({ <span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">/err</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">/index</span><span class="delimiter">&quot;</span></span> })
+  <span class="directive">public</span> <span class="predefined-type">String</span> index() {
+    <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">index</span><span class="delimiter">&quot;</span></span>;
+  }
+
+  <span class="annotation">@GetMapping</span>(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>)
+  <span class="directive">public</span> <span class="predefined-type">String</span> redirect() {
+    <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">forward:/</span><span class="delimiter">&quot;</span></span>;
+  }
+
+  <span class="annotation">@RequestMapping</span>({ <span class="string"><span class="delimiter">&quot;</span><span class="content">/logout</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">/logout/**</span><span class="delimiter">&quot;</span></span> })
+  <span class="directive">public</span> <span class="predefined-type">String</span> logout() {
+    <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">redirect:/login?logout</span><span class="delimiter">&quot;</span></span>;
+  }
+}</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1068,7 +1088,7 @@ http :8080/login</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="htmlunit"><a class="anchor" href="#htmlunit"></a>5.2.1. HtmlUnit</h4>
+<h4 id="htmlunit-e2e-testing"><a class="anchor" href="#htmlunit-e2e-testing"></a>5.2.1. HtmlUnit e2e testing</h4>
 <div class="listingblock">
 <div class="title">testing login page: must be publicly accessible for non-authorized users</div>
 <div class="content">
@@ -1118,7 +1138,7 @@ http :8080/login</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="chrome-using-webdrive"><a class="anchor" href="#chrome-using-webdrive"></a>5.2.2. Chrome using WebDrive</h4>
+<h4 id="e2e-testing-in-chrome-by-using-webdriver"><a class="anchor" href="#e2e-testing-in-chrome-by-using-webdriver"></a>5.2.2. E2E testing in Chrome by using WebDriver</h4>
 <div class="listingblock">
 <div class="title">testing login page: must be publicly accessible for non-authorized users</div>
 <div class="content">
@@ -1179,7 +1199,7 @@ http :8080/login</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="chrome-using-selenide"><a class="anchor" href="#chrome-using-selenide"></a>5.2.3. Chrome using Selenide</h4>
+<h4 id="e2e-testing-in-chrome-by-using-selenide"><a class="anchor" href="#e2e-testing-in-chrome-by-using-selenide"></a>5.2.3. E2E testing in Chrome by using Selenide</h4>
 <div class="listingblock">
 <div class="title">testing login page: must be publicly accessible for non-authorized users</div>
 <div class="content">
@@ -1352,7 +1372,7 @@ public class IndexPage {
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1<br>
-Last updated 2019-11-17 13:18:30 UTC
+Last updated 2019-11-17 13:24:19 UTC
 </div>
 </div>
 </body>
