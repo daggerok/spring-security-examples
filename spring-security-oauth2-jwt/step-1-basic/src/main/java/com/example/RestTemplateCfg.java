@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
+// tag::content[]
 @Configuration
 public class RestTemplateCfg {
 
@@ -14,3 +15,4 @@ public class RestTemplateCfg {
                                         .build();
     }
 }
+// end::content[]

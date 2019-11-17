@@ -1,0 +1,40 @@
+= spring-security basic authentication image:https://travis-ci.org/daggerok/spring-security-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-security-examples"]
+
+//tag::content[]
+
+_pom.xml_
+
+[source: xml]
+----
+include::./pom.xml[tags=content]
+----
+
+_SecurityCfg.java_
+
+[source: java]
+----
+include::./src/main/java/com/example/SecurityCfg.java[tags=content]
+----
+
+_RestTemplateCfg.java_
+
+[source: java]
+----
+include::./src/main/java/com/example/RestTemplateCfg.java[tags=content]
+----
+
+_IndexPage.java_
+
+[source: java]
+----
+include::./src/main/java/com/example/IndexPage.java[tags=content]
+----
+
+_index.html_
+
+[source: html]
+----
+include::./src/main/resources/templates/index.html[tags=content]
+----
+
+//end::content[]

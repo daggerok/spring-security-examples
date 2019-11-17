@@ -33,10 +33,12 @@
             <artifactId>webjars-locator</artifactId>
             <version>${webjars-locator.version}</version>
         </dependency>
+        <!-- tag::content[] -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+        <!-- end::content[] -->
     </dependencies>
 
     <build>

@@ -30,6 +30,10 @@ include::../spring-5-security-oauth2/README.adoc[tags=content]
 include::../web-mvc-security-testing-with-mock-user/README.adoc[]
 include::../web-driver-security-testing/README.adoc[]
 
+== Basic security
+
+include::../spring-security-oauth2-jwt/step-1-basic/README.adoc[tags=content]
+
 == links
 include::includes/Links.adoc[]
 

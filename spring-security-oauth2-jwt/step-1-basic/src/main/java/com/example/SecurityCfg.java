@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+// tag::content[]
 @Configuration
 public class SecurityCfg extends WebSecurityConfigurerAdapter {
 
@@ -23,9 +24,13 @@ public class SecurityCfg extends WebSecurityConfigurerAdapter {
                           .password(passwordEncoder().encode("password"))
                           .roles("USER")
                           .build())
+            // end::content[]
             .withUser(User.withUsername("admin")
                           .password(passwordEncoder().encode("admin"))
                           .roles("USER", "ADMIN")
-                          .build());
+                          .build())
+            // tag::content[]
+        ;
     }
 }
+// end::content[]

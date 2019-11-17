@@ -13,7 +13,10 @@
     <title>Basic</title>
 </head>
 <body>
-    <p>[[ ${message} ?: 'no message' ]]</p>
-    <pre>[[ ${ctx} ?: 'no ctx' ]]</pre>
+    <!-- tag::content[] -->
+    <p data-th-if="message != null">message: [[ ${message} ?: 'no message' ]]</p>
+    <pre data-th-if="ctx != null">ctx: [[ ${ctx} ?: 'no ctx' ]]</pre>
+    <!-- end::content[] -->
+    <pre data-th-if="user != null">user: [[ ${user} ?: 'no user' ]]</pre>
 </body>
 </html>

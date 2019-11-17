@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
+// tag::content[]
 @Controller
 @RequiredArgsConstructor
 public class IndexPage {
@@ -28,3 +29,4 @@ public class IndexPage {
         return "index";
     }
 }
+// end::content[]
