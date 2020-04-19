@@ -11,6 +11,7 @@ This repository contains spring-security playgroung projects
 
 Other related repositories:
 
+- link:https://github.com/daggerok/spring-jwt-secured-apps[Spring Servlet application with JWT stateless security]
 - link:https://github.com/daggerok/spring-security-java-ee[JavaEE Spring Security integration]
 - link:https://github.com/daggerok/oauth2-jdbc-example[Spring OAuth2 (JDBC token store) authorization server + resource server + client web app]
 - link:https://github.com/daggerok/csrf-spring-webflux-mustache/[Webflux, Reactive security, CSRF, etc..]
