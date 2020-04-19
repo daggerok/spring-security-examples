@@ -1,5 +1,7 @@
 = spring-security-examples image:https://travis-ci.org/daggerok/spring-security-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-security-examples"]
 
+// tag::content[]
+
 This repository contains spring-security playgroung projects
 
 - link:spring-security-oauth2-jwt/[Spring Security OAuth2 JWT steps and samples]
@@ -30,3 +32,5 @@ Other related repositories:
 - https://github.com/daggerok/multi-security
 - https://github.com/daggerok/war-multi-security
 - https://github.com/daggerok/spring-security-rest-auth-token
+
+// end::content[]
