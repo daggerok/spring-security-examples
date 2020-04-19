@@ -1,1 +1,2 @@
+include::../../README.adoc[tags=content]
 . link:http://asciidoctor.org/docs/user-manual/#builtin-attributes[Asciidoctor attributes]
