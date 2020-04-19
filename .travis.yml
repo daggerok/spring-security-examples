@@ -6,7 +6,7 @@ git:
 language: java
 jdk: openjdk8
 node_js: lts/*
-python: 3.7
+python: 3.8
 services:
   - xvfb
   - docker
@@ -18,28 +18,23 @@ addons:
       - bash
       - curl
       - tree
+      - httpie
       - docker-ce
       - libxml2-utils
       - libappindicator1
       - fonts-liberation
       - google-chrome-stable
-      - python3-setuptools
-      - python3-pip
 install: true
 before_install:
   - export CHROME_BIN=/usr/bin/google-chrome
   - export DISPLAY=:99.0
   #
   - if [ ! -f ${HOME}/.local/daggerok/bash-functions/master/main.bash ] ; then
-    mkdir -p ${HOME}/.local/daggerok/bash-functions/master ;
-    curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash > ${HOME}/.local/daggerok/bash-functions/master/main.bash ;
+      mkdir -p ${HOME}/.local/daggerok/bash-functions/master ;
+      curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash > ${HOME}/.local/daggerok/bash-functions/master/main.bash ;
     fi
   - source ${HOME}/.local/daggerok/bash-functions/master/main.bash
   - stop_any 80 5432 8080 6551
-  #
-  - export PATH=$HOME/.local/bin:$PATH
-  - pip3 install --user --upgrade pip
-  - pip install --user --upgrade httpie docker-compose
 env:
   global:
     - TERM=dumb
@@ -79,7 +74,6 @@ jobs:
         - http :8080/api/greeting
         - stop_any 80 8080
     - stage: test
-      jdk: openjdk8
       name: spring-mvc-facebook
       script:
         - cp -Rf $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/application-oauth2-default.yaml $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/application-oauth2.yaml
@@ -89,7 +83,6 @@ jobs:
         - http :8080/login
         - stop_any 8080 80
     - stage: test
-      jdk: openjdk8
       name: spring-mvc-facebook-github
       befoe_script:
         - cp -Rf $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/application-oauth2-default.yaml $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/application-oauth2.yaml
@@ -100,7 +93,6 @@ jobs:
         - http :8080/login
         - stop_any 8080 80
     - stage: test
-      jdk: openjdk8
       name: spring-mvc-github
       before_script:
         - cp -Rf $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-github/src/main/resources/application-oauth2-default.yaml $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-github/src/main/resources/application-oauth2.yaml
@@ -123,7 +115,6 @@ jobs:
 #        - sleep 1s
 #        - stop_any 80 8080
     - stage: test
-      jdk: openjdk8
       name: web-mvc-security-testing-with-mock-user
       script:
         - cd $TRAVIS_BUILD_DIR/ && bash $TRAVIS_BUILD_DIR/web-mvc-security-testing-with-mock-user/mvnw -f $TRAVIS_BUILD_DIR/web-mvc-security-testing-with-mock-user/pom.xml >/dev/null
@@ -135,21 +126,18 @@ jobs:
         - sleep 1s
         - stop_any 80 8080
     - stage: test
-      jdk: openjdk8
       name: keycloak-identity-management
       script:
         - cd $TRAVIS_BUILD_DIR/keycloak-identity-management && ./gradlew clean assemble >/dev/null
         - cd $TRAVIS_BUILD_DIR/keycloak-identity-management && ./gradlew composeUp >/dev/null
         - cd $TRAVIS_BUILD_DIR/keycloak-identity-management && ./gradlew composeDown
     - stage: test
-      jdk: openjdk8
       name: csrf-protection-spa
       script:
         - cd $TRAVIS_BUILD_DIR/csrf-protection-spa && ./gradlew clean assemble >/dev/null
         - cd $TRAVIS_BUILD_DIR/csrf-protection-spa && ./gradlew composeUp >/dev/null
         - cd $TRAVIS_BUILD_DIR/csrf-protection-spa && ./gradlew composeDown
     - stage: deploy
-      jdk: openjdk8
       name: GitHub Pages
       env:
         - TERM=dumb
@@ -172,7 +160,6 @@ before_cache:
   - find ~/.gradle -name "fileHashes.bin" -print0 | xargs -0 rm -rfv '{}'
   - for item in $(find ~/.gradle -name "*.lock") ; do rm -rfv $item ; done
 cache:
-  pip: true
   packages: true
   directories:
     - ~/.m2
