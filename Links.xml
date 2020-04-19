@@ -8,10 +8,7 @@
 </info>
 <preface>
 <title></title>
-<orderedlist numeration="arabic">
-<listitem>
-<simpara><link xl:href="http://asciidoctor.org/docs/user-manual/#builtin-attributes">Asciidoctor attributes</link></simpara>
-</listitem>
-</orderedlist>
+<simpara>Unresolved directive in Links.adoc - include::../../README.adoc[tags=content]
+. <link xl:href="http://asciidoctor.org/docs/user-manual/#builtin-attributes">Asciidoctor attributes</link></simpara>
 </preface>
 </book>

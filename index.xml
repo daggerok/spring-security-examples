@@ -4,7 +4,7 @@
 <book xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
 <info>
 <title>spring-security-examples (0.0.1)</title>
-<date>2020-04-19 00:17:36 UTC</date>
+<date>2020-04-19 00:28:36 UTC</date>
 <author>
 <personname>
 <firstname>Maksim</firstname>
@@ -16,7 +16,7 @@
 <revhistory>
 <revision>
 <revnumber>0.0.1</revnumber>
-<date>2020-04-19 00:17:36 UTC</date>
+<date>2020-04-19 00:28:36 UTC</date>
 <authorinitials>MK</authorinitials>
 </revision>
 </revhistory>
@@ -756,11 +756,92 @@ public class IndexPage {
 </chapter>
 <chapter xml:id="links">
 <title>links</title>
+<simpara>This repository contains spring-security playgroung projects</simpara>
+<itemizedlist>
+<listitem>
+<simpara><link xl:href="spring-security-oauth2-jwt/">Spring Security OAuth2 JWT steps and samples</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="web-driver-security-testing/">Spring Web MVC Security testing using HtmUnit / Chrome WebDriver and also using Selenide</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="web-mvc-security-testing-with-mock-user/">Spring Web MVC Security testing using @WithMockUser annotation</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="spring-5-security-oauth2/">Spring 5 | Spring Security OAuth2 | Spring Boot 2 | Github | Facebook</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="csrf-protection-spa/">CSRF protection for client javascript on SPA</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="keycloak-identity-management/">Keycloack with Spring Boot</link></simpara>
+</listitem>
+</itemizedlist>
+<simpara>Other related repositories:</simpara>
+<itemizedlist>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/spring-jwt-secured-apps">Spring Servlet application with JWT stateless security</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/spring-boot-jpa-react-jwt-auth-app">https://github.com/daggerok/spring-boot-jpa-react-jwt-auth-app</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/boot-jwt">https://github.com/daggerok/boot-jwt</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/yet-another-oauth-spring-security-example">https://github.com/daggerok/yet-another-oauth-spring-security-example</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/spring-kotlin-examples">https://github.com/daggerok/spring-kotlin-examples</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/security-first">https://github.com/daggerok/security-first</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/secure-me-please">https://github.com/daggerok/secure-me-please</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/angular2-spring-boot/tree/angular2-spring-security">Spring Security Angular</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/react-spring-data-rest">Spring Security React</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/spring-auth-ldap-data-inmemory">Spring Security LDAP</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/spring-security-java-ee">JavaEE Spring Security integration</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/oauth2-jdbc-example">Spring OAuth2 (JDBC token store) authorization server + resource server + client web app</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/csrf-spring-webflux-mustache/">Webflux, Reactive security, CSRF, etc..</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/secured-app">some sucured app</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/oauth-playground">OAuth playgroung</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/spring-security-testing">yet another spring secururity repository</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/multi-security">https://github.com/daggerok/multi-security</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/war-multi-security">https://github.com/daggerok/war-multi-security</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/daggerok/spring-security-rest-auth-token">https://github.com/daggerok/spring-security-rest-auth-token</link></simpara>
 <orderedlist numeration="arabic">
 <listitem>
 <simpara><link xl:href="http://asciidoctor.org/docs/user-manual/#builtin-attributes">Asciidoctor attributes</link></simpara>
 </listitem>
 </orderedlist>
+</listitem>
+</itemizedlist>
 </chapter>
 <chapter xml:id="enjoy">
 <title>Enjoy! :)</title>
