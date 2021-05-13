@@ -7,7 +7,7 @@ on:
   pull_request:
     branches: [ master ]
 jobs:
-  spring-security-oauth2-jwt-step-2-fb-gh:
+  spring-security-oauth2-jwt-step-0:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -33,10 +33,54 @@ jobs:
       with:
         java-version: 11
     - uses: actions/setup-node@v2
-    - run: cp -Rf ./spring-security-oauth2-jwt/step-2-fb-gh/src/main/resources/disabled.application-gh.yaml ./spring-security-oauth2-jwt/step-2-fb-gh/src/main/resources/application-gh.yaml
+    - run: ./mvnw -f spring-security-oauth2-jwt/step-0 -B dependency:resolve-plugins dependency:resolve
+    - run: ./mvnw -f spring-security-oauth2-jwt/step-0
+    - run: java -jar spring-security-oauth2-jwt/step-0/target/*.jar -Dspring.profiles.active=gh &
+    - run: npx wait-port 8080
+    - run: sudo apt-get install -y curl httpie
+    - run: http :8080
+    - run: http :8080/api/greeting
+  spring-security-oauth2-jwt-step-1-basic:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v2
+      id: cache-mvn
+      with:
+        path: |
+          ~/.m2/repository
+          !~/.m2/repository/com/gituhb/daggerok
+        key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - uses: actions/setup-node@v2
+    - run: ./mvnw -f spring-security-oauth2-jwt/step-1-basic -B dependency:resolve-plugins dependency:resolve
+    - run: ./mvnw -f spring-security-oauth2-jwt/step-1-basic
+    - run: java -jar spring-security-oauth2-jwt/step-1-basic/target/*.jar -Dspring.profiles.active=gh &
+    - run: npx wait-port 8080
+    - run: sudo apt-get install -y curl httpie
+    - run: http -a admin:admin   :8080
+    - run: http -a user:password :8080/api/greeting
+  spring-security-oauth2-jwt-step-2-fb-gh:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v2
+      id: cache-mvn
+      with:
+        path: |
+          ~/.m2/repository
+          !~/.m2/repository/com/gituhb/daggerok
+        key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - uses: actions/setup-node@v2
+    - run: cp -Rf  ./spring-security-oauth2-jwt/step-2-fb-gh/src/main/resources/disabled.application-gh.yaml ./spring-security-oauth2-jwt/step-2-fb-gh/src/main/resources/application-gh.yaml
     - run: ./mvnw -f spring-security-oauth2-jwt/step-2-fb-gh -B dependency:resolve-plugins dependency:resolve
     - run: ./mvnw -f spring-security-oauth2-jwt/step-2-fb-gh
-    - run: java -jar ./spring-security-oauth2-jwt/step-2-fb-gh/target/*.jar -Dspring.profiles.active=gh &
+    - run: java -jar spring-security-oauth2-jwt/step-2-fb-gh/target/*.jar -Dspring.profiles.active=gh &
     - run: npx wait-port 8080
     - run: sudo apt-get install -y curl httpie
     - run: http :8080
