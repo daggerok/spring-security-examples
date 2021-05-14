@@ -85,6 +85,66 @@ jobs:
     - run: sudo apt-get install -y curl httpie
     - run: http :8080
     - run: http :8080/login
+  spring-mvc-facebook:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v2
+      id: cache-gradle
+      with:
+        path: |
+          ~/.gradle
+        key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - uses: actions/setup-node@v2
+    - run: cp -Rf ./spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/application-oauth2-default.yaml $GITHUB_WORKSPACE/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/application-oauth2.yaml
+    - run: ./gradlew -Pci -p spring-5-security-oauth2 >/dev/null
+    - run: java -jar ./spring-5-security-oauth2/spring-mvc-facebook/build/libs/*.jar &
+    - run: npx wait-port 8080
+    - run: sudo apt-get install -y curl httpie
+    - run: http :8080/login
+  spring-mvc-facebook-github:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v2
+      id: cache-gradle
+      with:
+        path: |
+          ~/.gradle
+        key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - uses: actions/setup-node@v2
+    - run: cp -Rf ./spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/application-oauth2-default.yaml $GITHUB_WORKSPACE/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/application-oauth2.yaml
+    - run: ./gradlew -Pci -b ./spring-5-security-oauth2/spring-mvc-facebook-github/build.gradle
+    - run: java -jar spring-5-security-oauth2/spring-mvc-facebook-github/build/libs/*.jar &
+    - run: npx wait-port 8080
+    - run: sudo apt-get install -y curl httpie
+    - run: http :8080/login
+  spring-mvc-github:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v2
+      id: cache-gradle
+      with:
+        path: |
+          ~/.gradle
+        key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - uses: actions/setup-node@v2
+    - run: cp -Rf ./spring-5-security-oauth2/spring-mvc-github/src/main/resources/application-oauth2-default.yaml $GITHUB_WORKSPACE/spring-5-security-oauth2/spring-mvc-github/src/main/resources/application-oauth2.yaml
+    - run: ./gradlew -Pci -p spring-5-security-oauth2/spring-mvc-github
+    - run: java -jar spring-5-security-oauth2/spring-mvc-github/build/libs/*.jar &
+    - run: npx wait-port 8080
+    - run: sudo apt-get install -y curl httpie
+    - run: http :8080/login
   github-pages:
     runs-on: ubuntu-latest
     steps:

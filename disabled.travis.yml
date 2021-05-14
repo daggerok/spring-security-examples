@@ -40,45 +40,6 @@ env:
     - TERM=dumb
 jobs:
   include:
-    - stage: test
-      name: spring-security-oauth2-jwt step-0
-      jdk: openjdk11
-      script:
-        - cd $TRAVIS_BUILD_DIR/ && ./mvnw -f spring-security-oauth2-jwt/step-0
-        - java -jar $TRAVIS_BUILD_DIR/spring-security-oauth2-jwt/step-0/target/*.jar &
-        - wait_for 8080
-        - http :8080
-        - http :8080/api/greeting
-        - stop_any 80 8080
-    - stage: test
-      name: spring-mvc-facebook
-      script:
-        - cp -Rf $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/application-oauth2-default.yaml $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/application-oauth2.yaml
-        - cd $TRAVIS_BUILD_DIR/ && bash ./gradlew -Pci -b $TRAVIS_BUILD_DIR/spring-5-security-oauth2/build.gradle >/dev/null
-        - java -jar $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-facebook/build/libs/*.jar &
-        - wait_for 8080
-        - http :8080/login
-        - stop_any 8080 80
-    - stage: test
-      name: spring-mvc-facebook-github
-      befoe_script:
-        - cp -Rf $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/application-oauth2-default.yaml $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/application-oauth2.yaml
-      script:
-        - cd $TRAVIS_BUILD_DIR/ && bash ./gradlew -Pci -b $TRAVIS_BUILD_DIR/spring-5-security-oauth2/build.gradle >/dev/null
-        - cd $TRAVIS_BUILD_DIR/ && bash $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-facebook-github/build/libs/*.jar &
-        - wait_for 8080
-        - http :8080/login
-        - stop_any 8080 80
-    - stage: test
-      name: spring-mvc-github
-      before_script:
-        - cp -Rf $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-github/src/main/resources/application-oauth2-default.yaml $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-github/src/main/resources/application-oauth2.yaml
-      script:
-        - cd $TRAVIS_BUILD_DIR/ && bash ./gradlew -Pci -b $TRAVIS_BUILD_DIR/spring-5-security-oauth2/build.gradle >/dev/null
-        - cd $TRAVIS_BUILD_DIR/ && bash $TRAVIS_BUILD_DIR/spring-5-security-oauth2/spring-mvc-github/build/libs/*.jar &
-        - wait_for 8080
-        - http :8080/login
-        - stop_any 8080 80
 #    - stage: test
 #      jdk: openjdk8
 #      name: web-driver-security-testing
