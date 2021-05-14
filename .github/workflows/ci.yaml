@@ -83,8 +83,8 @@ jobs:
     - run: java -jar spring-security-oauth2-jwt/step-2-fb-gh/target/*.jar -Dspring.profiles.active=gh &
     - run: npx wait-port 8080
     - run: sudo apt-get install -y curl httpie
-    - run: http :8080
-    - run: http :8080/login
+    - run: curl -iv 0:8080
+    - run: curl -iv 0:8080/login
   spring-mvc-facebook:
     runs-on: ubuntu-latest
     steps:
@@ -105,7 +105,7 @@ jobs:
     - run: java -jar ./spring-5-security-oauth2/spring-mvc-facebook/build/libs/*.jar &
     - run: npx wait-port 8080
     - run: sudo apt-get install -y curl httpie
-    - run: http :8080/login
+    - run: curl -iv 0:8080/login
   spring-mvc-facebook-github:
     runs-on: ubuntu-latest
     steps:
@@ -126,7 +126,7 @@ jobs:
     - run: java -jar spring-5-security-oauth2/spring-mvc-facebook-github/build/libs/*.jar &
     - run: npx wait-port 8080
     - run: sudo apt-get install -y curl httpie
-    - run: http :8080/login
+    - run: curl -iv 0:8080/login
   spring-mvc-github:
     runs-on: ubuntu-latest
     steps:
@@ -147,7 +147,7 @@ jobs:
     - run: java -jar spring-5-security-oauth2/spring-mvc-github/build/libs/*.jar &
     - run: npx wait-port 8080
     - run: sudo apt-get install -y curl httpie
-    - run: http :8080/login
+    - run: curl -iv 0:8080/login
   github-pages:
     runs-on: ubuntu-latest
     steps:
