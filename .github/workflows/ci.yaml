@@ -97,7 +97,7 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
     - uses: actions/setup-java@v1
       with:
-        java-version: 1.8
+        java-version: 11
     - uses: actions/setup-node@v2
     - run: cp -Rf ./spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/application-oauth2-default.yaml $GITHUB_WORKSPACE/spring-5-security-oauth2/spring-mvc-facebook/src/main/resources/application-oauth2.yaml
     - run: ./gradlew -Pci -p spring-5-security-oauth2 >/dev/null
@@ -117,7 +117,7 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
     - uses: actions/setup-java@v1
       with:
-        java-version: 1.8
+        java-version: 11
     - uses: actions/setup-node@v2
     - run: cp -Rf ./spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/application-oauth2-default.yaml $GITHUB_WORKSPACE/spring-5-security-oauth2/spring-mvc-facebook-github/src/main/resources/application-oauth2.yaml
     - run: ./gradlew -Pci -b ./spring-5-security-oauth2/spring-mvc-facebook-github/build.gradle
@@ -137,7 +137,7 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
     - uses: actions/setup-java@v1
       with:
-        java-version: 1.8
+        java-version: 11
     - uses: actions/setup-node@v2
     - run: cp -Rf ./spring-5-security-oauth2/spring-mvc-github/src/main/resources/application-oauth2-default.yaml $GITHUB_WORKSPACE/spring-5-security-oauth2/spring-mvc-github/src/main/resources/application-oauth2.yaml
     - run: ./gradlew -Pci -p spring-5-security-oauth2/spring-mvc-github
@@ -164,7 +164,7 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
     - uses: actions/setup-java@v1
       with:
-        java-version: 1.8
+        java-version: 11
     - run: ./gradlew --stop
     - run: ./mvnw -B dependency:resolve-plugins dependency:resolve
     - run: ./mvnw -Pdocs
