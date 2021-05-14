@@ -168,7 +168,9 @@ jobs:
     - uses: actions/setup-java@v1
       with:
         java-version: 11
-    - run: ./gradlew dependencies
+    #- run: ./gradlew :wrapper --gradle-version=6.9
+    - run: ./gradlew :wrapper dependencies
+    - run: ./gradlew clean build asciidoctor
     - run: ./gradlew --stop
     - run: ./mvnw -B dependency:resolve-plugins dependency:resolve
     - run: ./mvnw -Pdocs

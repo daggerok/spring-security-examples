@@ -50,6 +50,6 @@ dependencies {
 }
 
 wrapper {
-  gradleVersion = '4.9'
+  gradleVersion = '6.9'
   distributionType = 'BIN'
 }
