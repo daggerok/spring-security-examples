@@ -1,6 +1,6 @@
 buildscript {
   ext {
-    lombokVersion = '1.16.20'
+    lombokVersion = '1.18.20'
     springBootVersion = '1.5.14.RELEASE'
   }
 }
@@ -9,7 +9,7 @@ plugins {
   id 'java'
   id 'idea'
   id 'eclipse'
-  id 'io.franzbecker.gradle-lombok' version '1.14'
+  id 'io.franzbecker.gradle-lombok' version '4.0.0'
   id 'org.springframework.boot' version '1.5.14.RELEASE'
   id 'com.avast.gradle.docker-compose' version '0.6.13' apply false
 }
