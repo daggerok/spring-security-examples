@@ -4,7 +4,6 @@
 
 This repository contains spring-security playgroung projects
 
-- https://github.com/daggerok/spring-security-basics
 - link:spring-security-oauth2-jwt/[Spring Security OAuth2 JWT steps and samples]
 - link:web-driver-security-testing/[Spring Web MVC Security testing using HtmUnit / Chrome WebDriver and also using Selenide]
 - link:web-mvc-security-testing-with-mock-user/[Spring Web MVC Security testing using @WithMockUser annotation]
@@ -12,26 +11,35 @@ This repository contains spring-security playgroung projects
 - link:csrf-protection-spa/[CSRF protection for client javascript on SPA]
 - link:keycloak-identity-management/[Keycloack with Spring Boot]
 
-Other related repositories:
+Other spring-related repositories:
 
+- link:https://github.com/daggerok/spring-security-basics[GitHub: daggerok/spring-security-basics]
+- link:spring-cloud-security-oauth2-sso-github[GitHub: daggerok/spring-cloud-security-oauth2-sso-github]
 - link:https://github.com/daggerok/spring-jwt-secured-apps[Spring Servlet application with JWT stateless security]
-- https://github.com/daggerok/spring-boot-jpa-react-jwt-auth-app
-- https://github.com/daggerok/boot-jwt
-- https://github.com/daggerok/yet-another-oauth-spring-security-example
-- https://github.com/daggerok/spring-kotlin-examples
-- https://github.com/daggerok/security-first
-- https://github.com/daggerok/secure-me-please
-- link:https://github.com/daggerok/angular2-spring-boot/tree/angular2-spring-security[Spring Security Angular]
-- link:https://github.com/daggerok/react-spring-data-rest[Spring Security React]
-- link:https://github.com/daggerok/spring-auth-ldap-data-inmemory[Spring Security LDAP]
+- link:https://github.com/daggerok/spring-boot-jpa-react-jwt-auth-app[GitHub: daggerok/spring-boot-jpa-react-jwt-auth-app]
+- link:https://github.com/daggerok/boot-jwt[GitHub: boot-jwt]
+- link:https://github.com/daggerok/yet-another-oauth-spring-security-example[GitHub: daggerok/yet-another-oauth-spring-security-example]
+- link:https://github.com/daggerok/spring-kotlin-examples[GitHub: daggerok/spring-kotlin-examples]
+- link:https://github.com/daggerok/security-first[GitHub: daggerok/security-first]
+- link:https://github.com/daggerok/secure-me-please[GitHub: secure-me-please]
+- link:https://github.com/daggerok/angular2-spring-boot/tree/angular2-spring-security[GitHub: daggerok/angular2-spring-boot Spring Security Angular]
+- link:https://github.com/daggerok/react-spring-data-rest[GitHub: daggerok/react-spring-data-rest Spring Security React]
+- link:https://github.com/daggerok/spring-auth-ldap-data-inmemory[GitHub: daggerok/spring-auth-ldap-data-inmemory Spring Security LDAP]
 - link:https://github.com/daggerok/spring-security-java-ee[JavaEE Spring Security integration]
 - link:https://github.com/daggerok/oauth2-jdbc-example[Spring OAuth2 (JDBC token store) authorization server + resource server + client web app]
-- link:https://github.com/daggerok/csrf-spring-webflux-mustache/[Webflux, Reactive security, CSRF, etc..]
-- link:https://github.com/daggerok/secured-app[some sucured app]
+- link:https://github.com/daggerok/csrf-spring-webflux-mustache/[GitHub: daggerok/csrf-spring-webflux-mustache Webflux, Reactive security, CSRF, etc..]
+- link:https://github.com/daggerok/secured-app[GitHub: daggerok/secured-app some sucured app]
 - link:https://github.com/daggerok/oauth-playground[OAuth playgroung]
-- link:https://github.com/daggerok/spring-security-testing[yet another spring secururity repository]
-- https://github.com/daggerok/multi-security
-- https://github.com/daggerok/war-multi-security
-- https://github.com/daggerok/spring-security-rest-auth-token
+- link:https://github.com/daggerok/spring-security-testing[GitHub: daggerok/spring-security-testing yet another spring secururity repository]
+- link:https://github.com/daggerok/multi-security[GitHub: multi-security]
+- link:https://github.com/daggerok/war-multi-security[GitHub: war-multi-security]
+- link:https://github.com/daggerok/spring-security-rest-auth-token[GitHub: spring-security-rest-auth-token]
+- link:fork-rwinch-spring-security5-reactive-parts[GitHub: rwinch/spring-security5-reactive-bits]
+
+Other related repositories
+
+- link:https://github.com/daggerok/vault-examples[GitHub: daggerok/vault-examples]
+- link:https://github.com/daggerok/quarkus-elytron-security-jdbc-postgresql-example[GitHub: daggerok/quarkus-elytron-security-jdbc-postgresql-example]
+- link:https://github.com/daggerok/fork-sample-gateway-oauth2login[GitHub: daggerok/fork-sample-gateway-oauth2login]
 
 // end::content[]
